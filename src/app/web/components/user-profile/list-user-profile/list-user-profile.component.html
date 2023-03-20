@@ -1,0 +1,502 @@
+<!-- <div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+		<div class="card">
+		
+			<h4>Search</h4>
+
+		</div>
+		
+	</div>
+</div> -->
+
+<div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+		<div class="card">
+			<p-toolbar styleClass="mb-4 gap-2">
+				<h4 class="m-0">Manage Profile</h4>
+			</p-toolbar>
+
+			<p-table #dt [value]="userProfiles" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+				[globalFilterFields]="['user_name','first_name','last_name','period','email','mobile','user_status']"
+				responsiveLayout="scroll" [(selection)]="selectedUserProfiles" [rowHover]="true" dataKey="user_profile_id"
+				[rowsPerPageOptions]="[10,25,50]"
+				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+				[showCurrentPageReport]="true">
+				<ng-template pTemplate="caption">
+					<div class="flex align-items-center justify-content-between">
+
+						<span class="p-input-icon-left" style="width:auto">
+							<i class="pi pi-search"></i>
+							<input pInputText type="text"
+								(input)="dt.filterGlobal($any($event.target).value, 'contains')"
+								placeholder="Search User Profile name..." />
+						</span>
+
+						<button pButton pRipple label="Create" icon="pi pi-plus"
+							class="p-button-primary mr-2"
+							(click)="showResponsiveDialogCreateProfile()"></button>
+
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<!-- <th style="width: 3rem">
+							<p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+						</th> -->
+						<!-- <th pSortableColumn="userName">ID <p-sortIcon field="userName"></p-sortIcon>
+						</th> -->
+						<th style="width: 1rem"></th>
+						<th pSortableColumn="user_name">Username <p-sortIcon field="user_name"></p-sortIcon>
+						</th>
+						<th pSortableColumn="first_name">Fullname <p-sortIcon field="first_name"></p-sortIcon>
+						</th>
+						<th pSortableColumn="period">Period <p-sortIcon field="period"></p-sortIcon>
+						</th>
+						<th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon>
+						</th>
+						
+						<th pSortableColumn="last_login">Last Login <p-sortIcon field="last_login"></p-sortIcon>
+						</th>
+						<!-- <th pSortableColumn="userName">SESSIONID <p-sortIcon field="userName"></p-sortIcon>
+						</th> -->
+
+						<th pSortableColumn="create_date">Create<p-sortIcon field="create_date"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="update_date">Update <p-sortIcon field="update_date"></p-sortIcon>
+                        </th>
+						<th pSortableColumn="user_status">Status <p-sortIcon field="user_status"></p-sortIcon>
+						</th>
+						<th></th>
+					</tr>
+				</ng-template>
+
+				<ng-template pTemplate="body" let-userProfile let-rowIndex="rowIndex" let-expanded="expanded">
+					<tr>
+						<!-- <td>
+							<p-tableCheckbox [value]="product"></p-tableCheckbox>
+						</td> -->
+						<!-- <td style="font-weight:bold" >
+							<a (click)="showResponsiveDialogViewOrg(userProfile)">{{userProfile.user_profile_id || ''}}</a>
+						</td> -->
+						<td>
+                            <button type="button" pButton pRipple [pRowToggler]="userProfile"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
+						<td style="font-weight:bold">
+							{{userProfile.user_name || ''}}
+						</td>
+						<td style="font-weight:bold">
+							{{userProfile.first_name +" "+userProfile.last_name || ''}}
+						</td>
+						<td>
+							{{userProfile.period || ''}}
+						</td>
+						
+						<td>
+							{{userProfile.email || ''}}
+						</td>
+						
+
+						<td>
+							{{userProfile.last_login || ''}}
+						</td>
+
+
+						
+						<td>
+                            <i class="pi pi-calendar"></i> {{userProfile.update_date | date: 'yyyy-MM-dd HH:mm:ss'}} <br>
+                            <i class="pi pi-user-edit"></i> {{userProfile.update_by|| ''}}
+                        </td>
+                        <td>
+                            <i class="pi pi-calendar"></i> {{userProfile.create_date | date: 'yyyy-MM-dd HH:mm:ss'}} <br>
+                            <i class="pi pi-user-edit"></i> {{userProfile.create_by || ''}}
+                        </td>
+
+						<td>
+							<span
+								[class]="'product-badge status-' + (userProfile.user_status == 'ACTIVE' ? 'instock' : 'outofstock')">{{userProfile.user_status}}</span>
+						</td>
+
+					</tr>
+				</ng-template>
+
+				<ng-template pTemplate="rowexpansion" let-userProfile>
+                   
+                    <tr>
+                        <td colspan="12">
+                            <div class="p-3">
+                                <div class="mb-5">
+
+
+                                    <p-toolbar styleClass="mb-4 gap-2">
+
+
+                                        <ng-template pTemplate="left">
+
+                                        <span class="p-input-icon-left" style="width:auto">
+                                            <span class="label-expansion">Create By : </span> <span class="mr-2">{{userProfile.create_by }}</span>
+                                            <span class="label-expansion">Create Date : </span> <span>{{userProfile.create_date | date: 'yyyy-MM-dd HH:mm:ss'}}</span> 
+                                            <br>
+                                            <span class="label-expansion">Update By : </span> <span class="mr-2">{{userProfile.update_by }}</span>
+                                            <span class="label-expansion">Update Date : </span> <span>{{userProfile.update_date | date: 'yyyy-MM-dd HH:mm:ss'}}</span> 
+                                        </span>
+
+                                      </ng-template>
+                
+                                      <ng-template pTemplate="right">
+                                        <!-- <button pButton pRipple icon="pi pi-pencil"
+                                            class="p-button-sm" title="Edit" (click)="linkEditTranUser(tranuserex.userId)"></button> -->
+											<div>
+												<a  pButton pRipple icon="pi pi-pencil"
+												class="p-button-sm p-button-outlined mr-2" title="Edit" label="Edit" (click)="showResponsiveDialogEditProfile(userProfile)"></a>
+											</div>
+											<div>
+												<a  pButton pRipple icon="pi pi-plus" label="Role"
+												class="p-button-sm p-button-outlined mr-2" title="Create Role" ></a>
+											</div>
+                                        </ng-template>
+                                
+
+                                    </p-toolbar>
+
+                                    <p-panel header="User Detail" [toggleable]="true">
+
+                                        <ng-template pTemplate="icons">
+                                            <p-menu #menu id="user_detail" [model]="items" [popup]="true"></p-menu>
+                                        </ng-template>
+    
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">First name / Last name </label>
+                                                <p class="pl-1"> {{(userProfile.first_name + ' ' + userProfile.last_name) || ''}}</p>
+                                            </div>
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">Username</label>
+                                                <p class="pl-1">{{userProfile.user_name || ''}}</p>
+                                            </div>
+                                            
+											<div class="field col-12 md:col-4 pb-2">
+												<label class="label-expansion">Email</label>
+												<p class="pl-1">{{userProfile.email || ''}}</p>
+											</div>
+                                        </div>
+
+                                            <div class="p-formgrid grid">
+
+                                                
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Mobile</label>
+                                                    <p class="pl-1">{{userProfile.mobile || ''}}</p>
+                                                </div>
+                                               <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Startdate - Enddate</label>
+                                                    <p class="pl-1">{{(userProfile.startdate + ' - ' + userProfile.enddate) || ''}}</p>
+                                                </div>
+												<div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Period</label>
+                                                    <p class="pl-1">{{userProfile.period || ''}}</p>
+                                                </div>
+                                                
+                                               
+                                                
+                                            </div>
+
+                                            <div class="p-formgrid grid">
+
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Last Login</label>
+                                                    <p class="pl-1">{{userProfile.last_login || ''}}</p>
+                                                </div>
+												<div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Session Id</label>
+                                                    <p class="pl-1">{{userProfile.session_id || ''}}</p>
+                                                </div>
+
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Status</label>
+                                                    <p class="pl-1"><span
+                                                        [class]="'product-badge status-' + (userProfile.user_status == 'ACTIVE' ? 'instock' : 'outofstock')">{{userProfile.user_status}}</span></p>
+                                                </div>
+                                            </div>
+
+											<div class="p-formgrid grid">
+
+                                                
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Role</label>
+                                                    <p class="pl-1">{{userProfile.actors || ''}}</p>
+                                                </div>
+                                               
+                                                
+                                            </div>
+                                    </p-panel>
+                                </div>
+                                <!-- {{(tranuserex.firstname + ' ' + tranuserex.lastname) || ''}} -->
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+				<ng-template pTemplate="summary">
+					<div class="flex align-items-center justify-content-between">
+						In total there are {{userProfiles ? userProfiles.length : 0 }} User Profile.
+					</div>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+
+
+<!-- UPDATE -->
+<p-dialog header="Edit" [(visible)]="displayResponsiveEditProfile" [modal]="true" [breakpoints]="{'1100px': '90vw'}"
+	[style]="{width: '40vw'}" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+	<div class="grid pa-3" >
+		<!-- <ng-template  pTemplate="content">
+	
+			<div class="grid">
+				<div class="col-6">
+					<label htmlFor="userName" class="required">Username</label>
+				<input pInputText id="userName" (keydown.space)="$event.preventDefault()" name="userName"
+					[(ngModel)]="userName" type="text" 
+					autocomplete="off" />
+				</div>
+	
+				<div class="col-6">
+					<label htmlFor="userName" class="required">Username</label>
+				<input pInputText id="userName" (keydown.space)="$event.preventDefault()" name="userName"
+					[(ngModel)]="userName" type="text" 
+					autocomplete="off" />
+				</div>
+			</div> -->
+			
+			<!-- disabled when use view func -->
+
+			<div class="col-6" >
+				<label htmlFor="userName" class="required">UserName</label>
+				<input pInputText id="userName"  type="text" [disabled]="displayResponsiveEditProfile" [(ngModel)]="userProfile.user_name" />
+			</div>
+	
+			<div class="col-6">
+				<label htmlFor="calendar" class="required">Start Date</label>
+				<p-calendar  [(ngModel)]="userProfile.startdate" [showIcon]="true" inputId="icon" dateFormat="yy-mm-dd"></p-calendar>
+			</div>
+	
+			<div class="col-6" >
+				<label htmlFor="userName" class="required">First Name</label>
+				<input  pInputText id="userName" (keydown.space)="$event.preventDefault()" name="userName"
+					[(ngModel)]="userProfile.first_name" type="text" 
+					autocomplete="off" />
+				<!--  <small *ngIf="userNameInvalid"  class="p-error">Name is required.</small> -->
+			</div>
+	
+			<div class="col-6">
+				<label htmlFor="calendar" >End Date</label>
+				<p-calendar  [(ngModel)]="userProfile.enddate" [showIcon]="true" inputId="icon" dateFormat="yy-mm-dd"></p-calendar>
+			</div>
+	
+			<div class="col-6">
+				<label htmlFor="userName" class="required">Last Name</label>
+				<input  pInputText id="userName" (keydown.space)="$event.preventDefault()" name="userName"
+					[(ngModel)]="userProfile.last_name" type="text" 
+					autocomplete="off" />
+				<!--  <small *ngIf="userNameInvalid"  class="p-error">Name is required.</small> -->
+			</div>
+			<div class="col-6">
+				<label htmlFor="userprofiletype" class="required">Period</label>
+				<p-dropdown appendTo="body"  [options]="dropdownTypeItems" optionLabel="name" optionValue="name"
+					[(ngModel)]="selectedEditProfileTypeMstLovName" [ngClass]="{'ng-invalid ng-dirty': userprofiletypeInvalid}">
+				</p-dropdown>
+				<!-- <small *ngIf="userprofiletypeInvalid"  class="p-error">Type is required.</small> -->
+			</div>
+			
+	
+			<div class="col-6">
+				<label htmlFor="userName" >Email</label>
+				<input  pInputText id="userName" (keydown.space)="$event.preventDefault()" name="userName"
+					[(ngModel)]="userProfile.email" type="text" 
+					autocomplete="off" />
+				<!--  <small *ngIf="userNameInvalid"  class="p-error">Name is required.</small> -->
+			</div>
+	
+			
+			<div class="col-6">
+				<label htmlFor="userName" >Moblie</label>
+				<input  pInputText id="userName" (keydown.space)="$event.preventDefault()" name="userName"
+					[(ngModel)]="userProfile.mobile" type="text" 
+					autocomplete="off" />
+				<!--  <small *ngIf="userNameInvalid"  class="p-error">Name is required.</small> -->
+			</div>
+	
+
+	
+			<div class="col-6">
+				<label htmlFor="orgtatus">Status</label>
+				<div class="grid formgrid">
+					<div class="col-12 md:col-4">
+						<div class="field-radiobutton">
+							<p-radioButton name="orgtatus" value="ACTIVE"  [(ngModel)]="profileStatusRadio" id="active">
+							</p-radioButton>
+							<label for="active">Active</label>
+						</div>
+					</div>
+					<div class="col-12 md:col-4">
+						<div class="field-radiobutton">
+							<p-radioButton name="orgtatus" value="INACTIVE"  [(ngModel)]="profileStatusRadio" id="inactive">
+							</p-radioButton>
+							<label for="inactive">InActive</label>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			
+		</div>
+
+	<ng-template pTemplate="footer">
+		<p-button (click)="displayResponsiveEditProfile=false" icon="pi pi-times" label="Cancel"
+		 styleClass="p-button-text p-button-secondary"></p-button>
+		<p-button (click)="editProfile(1)" id="btn-edit" icon="pi pi-check" label="Save" styleClass="p-button-raised"
+		 [disabled]="btnEditIsdisable" [loading]="loading[1]">
+		</p-button>
+
+	</ng-template>
+
+</p-dialog>
+
+<!-- CREATE -->
+<p-dialog header="Create" [(visible)]="displayResponsiveCreateProfile" [modal]="true" [breakpoints]="{'1100px': '90vw'}"
+	[style]="{width: '40vw'}" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+	<div class="grid pa-3" >
+	<!-- <ng-template  pTemplate="content">
+		<div class="grid">
+			<div class="col-6">
+				<label htmlFor="userName" class="required">Username</label>
+			<input pInputText id="userName" (keydown.space)="$event.preventDefault()" name="userName"
+				[(ngModel)]="userName" type="text" 
+				autocomplete="off" />
+			</div>
+
+			<div class="col-6">
+				<label htmlFor="userName" class="required">Username</label>
+			<input pInputText id="userName" (keydown.space)="$event.preventDefault()" name="userName"
+				[(ngModel)]="userName" type="text" 
+				autocomplete="off" />
+			</div>
+		</div> -->
+		<div class="col-6" >
+			<label htmlFor="userName" class="required">Username</label>
+			<input pInputText id="userName" (keydown.space)="$event.preventDefault()" name="userName"
+				[(ngModel)]="userName" type="text" 
+				autocomplete="off" />
+			<!--  <small *ngIf="userNameInvalid"  class="p-error">Name is required.</small> -->
+		</div>
+
+		<div class="col-6">
+			<label htmlFor="calendar" class="required">Start Date</label>
+			<p-calendar [(ngModel)]="startdate" [showIcon]="true" inputId="icon" dateFormat="yy-mm-dd"></p-calendar >
+		</div>
+
+		<div class="col-6" >
+			<label htmlFor="firstname" class="required">First Name</label>
+			<input pInputText id="firstname" (keydown.space)="$event.preventDefault()" name="userName"
+				[(ngModel)]="firstname" type="text" 
+				autocomplete="off" />
+			<!--  <small *ngIf="userNameInvalid"  class="p-error">Name is required.</small> -->
+		</div>
+
+		<div class="col-6">
+			<label htmlFor="calendar" >End Date</label>
+			<p-calendar [(ngModel)]="enddate" [showIcon]="true" inputId="icon" dateFormat="yy-mm-dd"></p-calendar>
+		</div>
+
+		<div class="col-6">
+			<label htmlFor="lastname" class="required">Last Name</label>
+			<input pInputText id="lastname" (keydown.space)="$event.preventDefault()" name="userName"
+				[(ngModel)]="lastname" type="text" 
+				autocomplete="off" />
+			<!--  <small *ngIf="userNameInvalid"  class="p-error">Name is required.</small> -->
+		</div>
+		<div class="col-6">
+			<label htmlFor="userprofiletype" class="required">Period</label>
+			<p-dropdown appendTo="body" [options]="dropdownTypeItems" optionLabel="name"
+				[(ngModel)]="selectedCreateProfileTypeMstLov" [ngClass]="{'ng-invalid ng-dirty': userprofiletypeInvalid}">
+			</p-dropdown>
+			<!-- <small *ngIf="userprofiletypeInvalid"  class="p-error">Type is required.</small> -->
+		</div>
+		
+
+		<div class="col-6">
+			<label htmlFor="email" >Email</label>
+			<input pInputText id="email" (keydown.space)="$event.preventDefault()" name="userName"
+				[(ngModel)]="email" type="text" 
+				autocomplete="off" />
+			<!--  <small *ngIf="userNameInvalid"  class="p-error">Name is required.</small> -->
+		</div>
+
+		
+
+		
+
+		<div class="col-6">
+			<label htmlFor="moblie" >Moblie</label>
+			<input pInputText id="moblie" (keydown.space)="$event.preventDefault()" name="userName"
+				[(ngModel)]="moblie" type="text" 
+				autocomplete="off" />
+			<!--  <small *ngIf="userNameInvalid"  class="p-error">Name is required.</small> -->
+		</div>
+
+
+
+		<div class="col-6">
+			<label htmlFor="orgtatus">Status</label>
+			<div class="grid formgrid">
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="orgtatus" value="ACTIVE" [(ngModel)]="profileStatusRadio" id="active">
+						</p-radioButton>
+						<label for="active">Active</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="orgtatus" value="INACTIVE" [(ngModel)]="profileStatusRadio" id="inactive">
+						</p-radioButton>
+						<label for="inactive">InActive</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+	</div>
+	<!-- </ng-template> -->
+
+
+	<ng-template pTemplate="footer">
+		<p-button (click)="displayResponsiveCreateProfile=false" icon="pi pi-times" label="Cancel"
+			styleClass="p-button-text p-button-secondary"></p-button>
+		<p-button (click)="createProfile(0)" styleClass="p-button-raised" icon="pi pi-check" label="Save"
+			[loading]="loading[0]">
+		</p-button>
+	</ng-template>
+
+
+</p-dialog>
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+	<ng-template pTemplate="footer">
+		<p-button styleClass="p-button-text p-button-secondary" icon="pi pi-times" label="No" (click)="cd.reject()">
+		</p-button>
+		<p-button icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+	</ng-template>
+
+</p-confirmDialog>
+
+<p-toast></p-toast>

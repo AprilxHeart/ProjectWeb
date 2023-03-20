@@ -1,0 +1,226 @@
+<!-- <div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+		<div class="card">
+		
+			<h4>Search</h4>
+
+		</div>
+		
+	</div>
+</div> -->
+
+<div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+		<div class="card">
+			<p-toolbar styleClass="mb-4 gap-2">
+				<h4 class="m-0 text-color text-900">Manage Organization</h4>
+			</p-toolbar>
+
+			<p-table #dt [value]="organizations" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+				[globalFilterFields]="['orgName']"
+				responsiveLayout="scroll" [(selection)]="selectedOrganizations" [rowHover]="true" dataKey="id"
+				[rowsPerPageOptions]="[10,25,50]"
+				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+				[showCurrentPageReport]="true">
+				<ng-template pTemplate="caption">
+					<div class="flex align-items-center justify-content-between">
+
+						<span class="p-input-icon-left" style="width:auto">
+							<i class="pi pi-search"></i>
+							<input pInputText type="text"
+								(input)="dt.filterGlobal($any($event.target).value, 'contains')"
+								placeholder="Search Oranaizatio Name..." [pKeyFilter]="keyFillter.englishOrgName" />
+						</span>
+
+						<button pButton pRipple label="Create" icon="pi pi-plus"
+							class="p-button-primary mr-2"
+							(click)="showResponsiveDialogCreateOrg()"></button>
+
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<!-- <th style="width: 3rem">
+							<p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+						</th> -->
+						<th pSortableColumn="orgName">Name <p-sortIcon field="orgName"></p-sortIcon>
+						</th>
+						<th pSortableColumn="orgTypeName">Type <p-sortIcon field="orgTypeName"></p-sortIcon>
+						</th>
+						<th pSortableColumn="createdBy">Create By <p-sortIcon field="createdBy"></p-sortIcon>
+						</th>
+						<th pSortableColumn="createdDate">Create Date <p-sortIcon field="createdDate"></p-sortIcon>
+						</th>
+						<th pSortableColumn="updatedBy">Update By <p-sortIcon field="updatedBy"></p-sortIcon>
+						</th>
+						<th pSortableColumn="updatedDate">Last Update <p-sortIcon field="updatedDate"></p-sortIcon>
+						</th>
+						<th pSortableColumn="orgStatus">Status <p-sortIcon field="orgStatus"></p-sortIcon>
+						</th>
+						<th></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-organization>
+					<tr>
+						<!-- <td>
+							<p-tableCheckbox [value]="product"></p-tableCheckbox>
+						</td> -->
+						<td style="font-weight:bold">
+							{{organization.orgName || ''}}
+						</td>
+						<td>
+							{{organization.orgTypeName || ''}}
+						</td>
+						<td>
+							{{organization.createdBy || ''}} <br />
+						</td>
+						<td>
+							{{organization.createdDate | date: 'yyyy-MM-dd HH:mm:ss'}}
+						</td>
+						<td>
+							{{organization.updatedBy || ''}}
+						</td>
+						<td>
+							{{organization.updatedDate | date: 'yyyy-MM-dd HH:mm:ss'}}
+						</td>
+						<td>
+							<span
+								[class]="'product-badge status-' + (organization.orgStatus == 'ACTIVE' ? 'instock' : 'outofstock')">{{organization.orgStatus}}</span>
+						</td>
+						<td>
+						<!-- 	<button pButton type="button" icon="pi pi-plus" title="Create Division"
+								class="p-button-sm p-button-raised p-button-text mr-2"></button> -->
+								<a routerLink="/division" label="Division" title="Create Division" class="p-button-sm p-button-outlined mr-2" (click)="linkCreateDivision(organization.orgId)" [queryParams]="{ref : organization.orgid}" pButton pRipple icon="pi pi-plus"></a>
+							<button pButton pRipple icon="pi pi-pencil" label="Edit" title="Edit {{organization.orgName}}"
+								class="p-button-sm p-button-outlined"
+								(click)="showResponsiveDialogEditOrg(organization)"></button>
+						</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="summary">
+					<div class="flex align-items-center justify-content-between">
+						In total there are {{organizations ? organizations.length : 0 }} organization.
+					</div>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+
+<!-- UPDATE -->
+<p-dialog header="Edit" [(visible)]="displayResponsiveEditOrg" [modal]="true" [breakpoints]="{'960px': '75vw'}"
+	[style]="{width: '30vw'}" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+	<ng-template pTemplate="content">
+		<div class="field">
+			<label htmlFor="orgname" class="required">Name</label>
+			<input pInputText id="orgname"  type="text" minlength="1"
+				[ngClass]="{'ng-invalid ng-dirty': orgnameInvalid}" autocomplete="off"
+				[(ngModel)]="organization.orgName" />
+		</div>
+		<div class="field">
+			<label htmlFor="orgtype" class="required">Type</label>
+			<p-dropdown appendTo="body" (onChange)="onChangeOrgType($event.value)" [options]="dropdownTypeItems" optionLabel="name" optionValue="id"
+				[(ngModel)]="selectedEditOrgTypeMstLovId">
+			</p-dropdown>
+		</div>
+
+		<div class="field">
+			<label htmlFor="orgtatus">Status</label>
+			<div class="grid formgrid">
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="editorgtatus"
+							(click)="checkActiveDivition(organization.orgId,organization.orgStatus)" value="ACTIVE"
+							[(ngModel)]="organization.orgStatus" id="active">
+						</p-radioButton>
+						<label for="active">Active</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="editorgtatus"
+							(click)="checkActiveDivition(organization.orgId,organization.orgStatus)" value="INACTIVE"
+							[(ngModel)]="organization.orgStatus" id="inactive">
+						</p-radioButton>
+						<label for="inactive">InActive</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+
+	<ng-template pTemplate="footer">
+		<p-button (click)="displayResponsiveEditOrg=false" icon="pi pi-times" label="Cancel"
+			styleClass="p-button-text p-button-secondary"></p-button>
+		<p-button (click)="editOrganization(1)" id="btn-edit" icon="pi pi-check" label="Save"
+			 [disabled]="btnEditIsdisable" [loading]="loading[1]">
+		</p-button>
+	</ng-template>
+</p-dialog>
+
+<!-- CREATE -->
+<p-dialog header="Create" [(visible)]="displayResponsiveCreateOrg" [modal]="true" [breakpoints]="{'960px': '75vw'}"
+	[style]="{width: '30vw'}" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+
+
+	<ng-template pTemplate="content">
+
+		<div class="field">
+			<label htmlFor="orgname" class="required">Name</label>
+			<input pInputText id="orgname"  name="orgname"
+				[(ngModel)]="orgName" type="text" [ngClass]="{'ng-invalid ng-dirty': orgnameInvalid}"
+				autocomplete="off"  [pKeyFilter]="keyFillter.englishOrgName" />
+			<!--  <small *ngIf="orgnameInvalid"  class="p-error">Name is required.</small> -->
+		</div>
+		<div class="field">
+			<label htmlFor="orgtype" class="required">Type</label>
+			<p-dropdown appendTo="body" [options]="dropdownTypeItems" optionLabel="name"
+				[(ngModel)]="selectedCreateOrgTypeMstLov" [ngClass]="{'ng-invalid ng-dirty': orgtypeInvalid}">
+			</p-dropdown>
+			<!-- <small *ngIf="orgtypeInvalid"  class="p-error">Type is required.</small> -->
+		</div>
+
+		<div class="field">
+			<label htmlFor="orgtatus">Status</label>
+			<div class="grid formgrid">
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="orgtatus" value="ACTIVE" [(ngModel)]="orgStatusRadio" id="active">
+						</p-radioButton>
+						<label for="active">Active</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="orgtatus" value="INACTIVE" [(ngModel)]="orgStatusRadio" id="inactive">
+						</p-radioButton>
+						<label for="inactive">InActive</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+
+	<ng-template pTemplate="footer">
+		<p-button (click)="displayResponsiveCreateOrg=false" icon="pi pi-times" label="Cancel"
+			styleClass="p-button-text p-button-secondary"></p-button>
+		<p-button (click)="createOrganization(0)" icon="pi pi-check" label="Save"
+			[loading]="loading[0]">
+		</p-button>
+	</ng-template>
+
+
+
+</p-dialog>
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+	<ng-template pTemplate="footer">
+		<p-button styleClass="p-button-text p-button-secondary" icon="pi pi-times" label="No" (click)="cd.reject()">
+		</p-button>
+		<p-button icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+	</ng-template>
+
+</p-confirmDialog>
+
+<p-toast></p-toast>

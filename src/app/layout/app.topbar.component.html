@@ -1,0 +1,47 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" style="width: 240px !important" routerLink="">
+        <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark-2' : 'logo-white'}}.svg" alt="logo">
+        <span>Project</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <!-- <button class="p-link layout-topbar-button">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button> -->
+        <p-splitButton label="{{userFullName}}" [model]="this.items" styleClass="p-button-text mr-2 mb-2"></p-splitButton>
+        
+        <!-- <button class="p-link layout-topbar-button">
+            <i class="pi pi-calendar"></i>
+            <span>Calendar</span>
+        </button>
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
+            <i class="pi pi-cog"></i>
+            <span>Settings</span>
+        </button> -->
+    </div>
+
+    
+
+</div>
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+    <ng-template pTemplate="footer">
+        <p-button  styleClass="p-button-text p-button-secondary"  icon="pi pi-times" label="No" (click)="cd.reject()"></p-button>
+        <p-button  styleClass="p-button-text"   icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+    </ng-template>
+
+</p-confirmDialog>

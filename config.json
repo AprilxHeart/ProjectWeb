@@ -1,0 +1,7 @@
+{
+    "jwt_secret": "goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu",
+    "jwt_refreshTokenSecret": "goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu",
+    "port": 3000,
+    "tokenLife": 2000,
+    "refreshTokenLife": 86400
+}

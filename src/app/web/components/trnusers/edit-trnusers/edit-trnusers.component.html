@@ -1,0 +1,274 @@
+<div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4 gap-2">
+                <h4 class="m-0">Edit User</h4>
+            </p-toolbar>
+
+            <p-panel header="User Detail" styleClass="mb-4">
+                <div class="p-formgrid grid">
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="state" class="required">Division</label>
+                        <div class="p-inputgroup">
+                            <input type="text" class="text-indigo-700" style="font-weight: bold;opacity: 1.1;"
+                                [(ngModel)]="tranUser.divName" pInputText placeholder="" [disabled]="true">
+                            <button type="button" pButton pRipple icon="pi pi-search"
+                                (click)="displayShowDialogSearchDivision()" styleClass="p-button-warn"></button>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="position" class="required">Position</label>
+                        <p-dropdown id="position" [options]="dropdownPositionItems"
+                            (onChange)="onSelectPosition($event)" optionValue="id" optionLabel="name" 
+                            class="p-inputtext-sm" placeholder="Plase Select" [(ngModel)]="selectedPosition">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="transUsername" class="required">Username</label>
+                        <input pInputText id="transUsername" class="p-inputtext-sm" name="transUsername"
+                            [(ngModel)]="tranUser.username" type="text" autocomplete="off" [disabled]="true"
+                            [pKeyFilter]="keyFillter.englishAndNumber" />
+
+                    </div>
+                    <!--  <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="manager" class="required">Manager</label>
+                        <p-dropdown  id="manager" [options]="dropdownManagerItems"
+                                    optionValue="id"
+                                    optionLabel="name"
+                                    class="p-inputtext-sm"
+                            [(ngModel)]="selectedManager"></p-dropdown>
+                              (keydown.space)="$event.preventDefault()"
+                    </div> -->
+                </div>
+
+                <div class="p-formgrid grid">
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="transprefixName">Prefix (Th)</label>
+                        <p-dropdown #dd id="transprefixName" [options]="dropdownPrefixMstLov" class="p-inputtext-sm"
+                            [(ngModel)]="tranUser.prefixName" optionValue="id" optionLabel="name" [filter]="true"
+                            filterBy="name" [showClear]="true">
+                            <ng-template let-item pTemplate="selectedItem">
+                                {{item.name}}
+                            </ng-template>
+                            <ng-template let-prefix pTemplate="item">
+                                <div class="item-drop1">
+                                    <span class="item-value1">{{prefix.name}}</span>
+                                    <!-- <span *ngIf="prefix.id">{{prefix.name}}</span> -->
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                        <!--  <input pInputText id="transprefixName" class="p-inputtext-sm" [(ngModel)]="tranUser.prefixName" id="transprefixName" type="text" /> -->
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="firstname2" class="required">Firstname (Th)</label>
+                        <input pInputText id="firstname2" [(ngModel)]="tranUser.firstname" class="p-inputtext-sm"
+                            type="text" [pKeyFilter]="keyFillter.blockSpace" />
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="lastname2" class="required">Lastname (Th)</label>
+                        <input pInputText id="lastname2" [(ngModel)]="tranUser.lastname" class="p-inputtext-sm"
+                            type="text" [pKeyFilter]="keyFillter.blockSpace" />
+                    </div>
+                </div>
+
+                <div class="p-formgrid grid">
+
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="firstnameEn" >Firstname (En)</label>
+                        <input pInputText id="firstnameEn" [(ngModel)]="tranUser.firstnameEn" class="p-inputtext-sm"
+                            type="text" [pKeyFilter]="'alpha'" />
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="lastnameEn">Lastname (En)</label>
+                        <input pInputText id="lastnameEn" [(ngModel)]="tranUser.lastnameEn" class="p-inputtext-sm"
+                            type="text" [pKeyFilter]="'alpha'" />
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="state" >Status</label>
+                        <p-dropdown [options]="dropdownStatusItems" optionValue="id" optionLabel="name"
+                            class="p-inputtext-sm" [(ngModel)]="tranUser.userStatus"></p-dropdown>
+                    </div>
+
+                </div>
+
+
+            </p-panel>
+
+            <p-panel header="Other information" styleClass="mb-4">
+
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="userCode">User Code</label>
+                        <input pInputText id="userCode" [(ngModel)]="tranUser.usercode" class="p-inputtext-sm"
+                            type="text" />
+                    </div>
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="email">Email</label>
+                        <input pInputText id="email" [(ngModel)]="tranUser.email" class="p-inputtext-sm" type="text" />
+                    </div>
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="mobile">Mobile</label>
+                        <p-inputNumber id="mobile" [useGrouping]="false" [(ngModel)]="tranUser.mobile"
+                            class="p-inputtext-sm" [pKeyFilter]="'num'"></p-inputNumber>
+                    </div>
+
+                </div>
+                <div class="p-formgrid grid">
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="phone">Phone</label>
+                        <input pInputText id="phone" [(ngModel)]="tranUser.phone" class="p-inputtext-sm" type="text"
+                            [pKeyFilter]="'num'" />
+                    </div>
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="age1">Period</label>
+                        <p-dropdown id="period" [options]="dropdownPeriodMstLov" class="p-inputtext-sm" optionValue="id"
+                            optionLabel="name" [(ngModel)]="tranUser.period" [showClear]="true"></p-dropdown>
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="remark">Remark</label>
+                        <input pInputText id="remark" [(ngModel)]="tranUser.remark" class="p-inputtext-sm"
+                            type="text" />
+                    </div>
+                </div>
+
+
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="effectiveStratDate">Effective Strat Date</label>
+                        <!-- <input pInputText id="age1" class="p-inputtext-sm"  type="text" /> -->
+                        <p-calendar #effectiveStratDate
+                            (onSelect)="setEventCalendar($event, effectiveStratDate,'start')" id="effectiveStratDate"
+                            [ngModel]="tranUser.effectiveStartDateStr" [showIcon]="true" inputId="icon"
+                            dateFormat="yy-mm-dd" [showTime]="true" [hourFormat]="'24'"
+                            class="p-inputtext-sm p-button-secondary"></p-calendar>
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="effectiveEndDate">Effective End Date</label>
+                        <p-calendar #effectiveEndDate id="effectiveEndDate"
+                            (onSelect)="setEventCalendar($event, effectiveEndDate,'end')"
+                            [ngModel]="tranUser.effectiveEndDateStr" [showIcon]="true" inputId="icon"
+                            dateFormat="yy-mm-dd" [showTime]="true" [hourFormat]="'24'"
+                            class="p-inputtext-sm p-button-secondary"></p-calendar>
+                    </div>
+                </div>
+
+            </p-panel>
+            <p-panel header="ASC information">
+                <div class="p-formgrid grid">
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="userType">User Type</label>
+                        <p-dropdown id="userType" [options]="dropdownUserTypeMstLov" [showClear]="true"
+                            class="p-inputtext-sm" optionValue="id" optionLabel="name" [(ngModel)]="tranUser.userType
+                            "></p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="userAscCode">User ASC Code</label>
+                        <input pInputText id="userAscCode" [(ngModel)]="tranUser.userAsccode" type="text"
+                            class="p-inputtext-sm" [pKeyFilter]="keyFillter.englishAndNumber" />
+                    </div>
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="name2">ASC Category</label>
+                        <p-dropdown [options]="dropdownAscCategoryMstLov" class="p-inputtext-sm" [showClear]="true"
+                            optionValue="id" optionLabel="name" [(ngModel)]="tranUser.ascCategory"></p-dropdown>
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="ascPosition">Asc Position</label>
+                        <p-dropdown id="ascPosition" [options]="dropdownAscPositionMstLov" [showClear]="true"
+                            class="p-inputtext-sm" optionValue="id" optionLabel="name"
+                            [(ngModel)]="tranUser.ascPosition"></p-dropdown>
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="userAscRole">User ASC Role</label>
+                        <p-dropdown id="userAscRole" [options]="dropdownUserAscRoleMstLov" [showClear]="true"
+                            class="p-inputtext-sm" optionValue="id" optionLabel="name" [(ngModel)]="tranUser.userRole">
+                        </p-dropdown>
+                    </div>
+                </div>
+            </p-panel>
+
+            <div class="p-formgrid mr-1 mt-5 grid flex justify-content-end flex-wrap card-container green-container">
+                <p-button (click)="linkBack()" icon="pi pi-times"
+                    styleClass="flex align-items-center justify-content-center" label="Cancel"
+                    styleClass="p-button-text p-button-secondary"></p-button>
+                <p-button (click)="updateTranUser(1)"
+                    styleClass="p-button-raised  flex align-items-center justify-content-center" icon="pi pi-check"
+                    label="Save" [loading]="loading[1]">
+                </p-button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Search dialog -->
+<p-dialog header="Search Division" [(visible)]="displayResponsiveSearchDivision" [modal]="true"
+    [breakpoints]="{'960px': '75vw'}" [style]="{width: '40vw'}" styleClass="p-fluid" [draggable]="false"
+    [resizable]="false">
+    <ng-template pTemplate="content" ngClass="mb-5">
+
+        <div class="field mb-5">
+            <!--            <div class="field col-12 md:col-6 ">-->
+            <div class="p-inputgroup">
+                <input type="text" pInputText [(ngModel)]="kwDivision" placeholder="Division Name">
+                <button type="button" pButton pRipple label="Search" icon="pi pi-search" (click)="searchDivision()"
+                    styleClass="p-button-warn"></button>
+                <!--                </div>-->
+            </div>
+        </div>
+
+
+        <div class="field" *ngFor="let virtualListDivision of listDivision">
+            <div class="flex justify-content-between flex-wrap card-container purple-container">
+                <div class="flex align-items-center justify-content-center">
+                    <div class="field-radiobutton">
+                        <p-radioButton name="divisionName" (click)="onItemChangeDivision($event,virtualListDivision)"
+                            value="{{virtualListDivision.divId}}" [(ngModel)]="divisionId"
+                            inputId="division{{virtualListDivision.divId}}"></p-radioButton>
+                        <label style="font-weight:bold"
+                            for="{{virtualListDivision.divId}}">{{virtualListDivision.divisionName}}</label>
+                    </div>
+                </div>
+                <div class="flex justify-content-between flex-wrap card-container purple-container">
+                    <span
+                        [class]="'text-500 ' + (virtualListDivision.divisionStatus == 'ACTIVE' ? 'text-green-700' : 'text-red-700')">{{virtualListDivision.divisionStatus}}</span>
+                </div>
+            </div>
+            <p-divider></p-divider>
+        </div>
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <p-button (click)="displayResponsiveSearchDivision=false" icon="pi pi-times" styleClass="p-button-sm"
+            label="Cancel" styleClass="p-button-text p-button-secondary"></p-button>
+        <p-button (click)="selectedDivision()" styleClass="p-button-raised p-button-sm" icon="pi pi-check"
+            label="Select" [disabled]="divisionId != 0 ? false : true">
+        </p-button>
+    </ng-template>
+
+</p-dialog>
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+    <ng-template pTemplate="footer">
+        <p-button styleClass="p-button-text p-button-secondary" icon="pi pi-times" label="No" (click)="cd.reject()">
+        </p-button>
+        <p-button icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+    </ng-template>
+
+</p-confirmDialog>
+
+<p-toast></p-toast>

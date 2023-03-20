@@ -1,0 +1,297 @@
+<div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4 gap-2">
+                <h4 class="m-0">Manage User</h4>
+            </p-toolbar>
+
+            <p-table #dt [value]="listTranUser" [rows]="10" dataKey="userId" [paginator]="true"
+                responsiveLayout="scroll" [globalFilterFields]="['firstname','lastname','username','userStatus']" responsiveLayout="scroll"
+                [(selection)]="selectedTranUser" [rowHover]="true" [rowsPerPageOptions]="[10,25,50]"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="flex align-items-center justify-content-between">
+
+                        <span class="p-input-icon-left" style="width:auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                                placeholder="Search Name,Username " />
+                        </span>
+
+                        <button pButton pRipple label="Create" icon="pi pi-plus"
+                            class="p-button-primary mr-2" (click)="linkPageCreateTranUser(0)"></button>
+
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th> -->
+                        <th style="width: 1rem"></th>
+                        <th pSortableColumn="firstname">Username <p-sortIcon field="firstname"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="firstname">Name <p-sortIcon field="firstname"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="positionName">Position <p-sortIcon field="positionName"></p-sortIcon>
+                        </th>
+
+                        <!-- <th pSortableColumn="orgName">Organization <p-sortIcon field="orgName"></p-sortIcon>
+                        </th> -->
+                        <th pSortableColumn="divName">Divition <p-sortIcon field="divName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="createdDate">Create<p-sortIcon field="createdDate"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="updatedDate">Update <p-sortIcon field="updatedDate"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="userStatus">Status <p-sortIcon field="userStatus"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-tranuser let-rowIndex="rowIndex" let-expanded="expanded">
+                    <tr>
+
+                        <td>
+                            <button type="button" pButton pRipple [pRowToggler]="tranuser"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
+                        <td style="font-weight:600">
+                            {{tranuser.username}} 
+                        </td>
+                        <td style="font-weight:600">
+                            {{(tranuser.firstname + ' ' + tranuser.lastname) || ''}} 
+                        </td>
+                        <td style="font-weight:600">
+                            {{tranuser.positionName}}
+                        </td>
+                       <!--  <td style="font-weight:600">
+                            {{tranuser.orgName || ''}}
+                        </td> -->
+                        <td style="font-weight:600">
+                            {{tranuser.divName || ''}}
+                        </td>
+                        <td>
+                            <i class="pi pi-calendar"></i> {{tranuser.createdDate | date: 'yyyy-MM-dd HH:mm:ss'}} <br>
+                            <i class="pi pi-user-edit"></i> {{tranuser.createdBy || ''}}
+                        </td>
+                        <td>
+                            <i class="pi pi-calendar"></i> {{tranuser.updatedDate | date: 'yyyy-MM-dd HH:mm:ss'}} <br>
+                            <i class="pi pi-user-edit"></i> {{tranuser.updatedBy || ''}}
+                        </td>
+                        <td>
+                            <span
+                                [class]="'product-badge status-' + (tranuser.userStatus == 'ACTIVE' ? 'instock' : 'outofstock')">{{tranuser.userStatus}}</span>
+                        </td>
+                    </tr>
+                </ng-template>
+
+
+                <ng-template pTemplate="rowexpansion" let-tranuserex>
+                   
+                    <tr>
+                        <td colspan="8">
+                            <div class="p-3">
+                                <div class="mb-5">
+
+
+                                    <p-toolbar styleClass="mb-4 gap-2">
+
+
+                                        <ng-template pTemplate="left">
+
+                                        <span class="p-input-icon-left" style="width:auto">
+                                            <span class="label-expansion">Create By : </span> <span class="mr-2">{{tranuserex.createdBy}}</span>
+                                            <span class="label-expansion">Create Date : </span> <span>{{tranuserex.createdDate | date: 'yyyy-MM-dd HH:mm:ss'}}</span> 
+                                            <br>
+                                            <span class="label-expansion">Update By : </span> <span class="mr-2">{{tranuserex.updatedBy}}</span>
+                                            <span class="label-expansion">Update Date : </span> <span>{{tranuserex.updatedDate | date: 'yyyy-MM-dd HH:mm:ss'}}</span> 
+                                        </span>
+
+                                      </ng-template>
+                
+                                        <ng-template pTemplate="right">
+                                            <a routerLink="/transuser/edit" label="Edit" [queryParams]="{ref : tranuserex.userId}" pButton pRipple icon="pi pi-pencil"
+                                            class="p-button-sm p-button-outlined" title="Edit" (click)="linkEditTranUser(tranuserex.userId)"></a>
+                                        </ng-template>
+                                    </p-toolbar>
+
+                                    <p-panel header="User Detail" [toggleable]="true">
+                                        <ng-template pTemplate="icons">
+                                            <p-menu #menu id="user_detail" [model]="items" [popup]="true"></p-menu>
+                                        </ng-template>
+    
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">First name / Last name (Th)</label>
+                                                <p class="pl-1"><span *ngIf="tranuserex.prefixName" >{{tranuserex.prefixNameLovName}} </span> {{(tranuserex.firstname + ' ' + tranuserex.lastname) || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">First name / Last name (En)</label>
+                                                <p class="pl-1"> <span *ngIf="tranuserex.firstnameEn" >{{tranuserex.firstnameEn}} </span> <span *ngIf="tranuserex.lastnameEn" >{{tranuserex.lastnameEn}} </span>
+                                            </div>
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">Username</label>
+                                                <p class="pl-1">{{tranuserex.username || ''}}</p>
+                                            </div>
+                                            
+
+                                        </div>
+
+                                            <div class="p-formgrid grid">
+
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Position</label>
+                                                    <p class="pl-1">{{tranuserex.positionName || ''}}</p>
+                                                </div>
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Organization</label>
+                                                    <p class="pl-1">{{tranuserex.orgName || ''}}</p>
+                                                </div>
+                                               <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Division</label>
+                                                    <p class="pl-1">{{tranuserex.divName || ''}}</p>
+                                                </div>
+                                                
+                                               
+                                                
+                                            </div>
+
+                                            <div class="p-formgrid grid">
+
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Manager</label>
+                                                    <p class="pl-1"></p>
+                                                </div>
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">Status</label>
+                                                    <p class="pl-1"><span
+                                                        [class]="'product-badge status-' + (tranuserex.userStatus == 'ACTIVE' ? 'instock' : 'outofstock')">{{tranuserex.userStatus}}</span></p>
+                                                </div>
+                                               
+                                                
+                                            </div>
+
+                                    </p-panel>
+                                </div>
+                                <div class="mb-5">
+                                <p-panel header="Other information" class="mb-5" [toggleable]="true">
+
+
+
+                                    <ng-template pTemplate="icons">
+                                        <p-menu #menu id="other_information" [model]="items" [popup]="true"></p-menu>
+                                    </ng-template>
+
+                                    <div class="p-formgrid grid">
+
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">User Code</label>
+                                            <p class="pl-1"><span *ngIf="tranuserex.usercode" >{{tranuserex.usercode}} </span></p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Email</label>
+                                            <p class="pl-1"> <span *ngIf="tranuserex.email" >{{tranuserex.email}} </span></p>
+                                        </div>
+
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Mobile</label>
+                                            <p class="pl-1">{{tranuserex.mobile || ''}}</p>
+                                        </div>
+                                        
+
+                                    </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">Phone</label>
+                                                <p class="pl-1">{{tranuserex.phone || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">Period</label>
+                                                <p class="pl-1">{{tranuserex.userPeriodName || ''}}</p>
+                                            </div>
+                                           <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">Remark</label>
+                                                <p class="pl-1">{{tranuserex.remark || ''}}</p>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">Effective Strat Date</label>
+                                                <p class="pl-1">{{tranuserex.effectiveStartDate | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">Effective End Date</label>
+                                                <p class="pl-1">{{tranuserex.effectiveEndDate | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
+                                            </div>
+                                           
+                                            
+                                        </div>
+
+                                </p-panel>
+                              </div>
+                              <div class="mb-5">
+                                <p-panel header="ASC information" class="mb-5" [toggleable]="true">
+
+                                    <ng-template pTemplate="icons">
+                                        <p-menu #menu id="asc_information" [model]="items" [popup]="true"></p-menu>
+                                    </ng-template>
+
+                                    <div class="p-formgrid grid">
+
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">User Type</label>
+                                            <p class="pl-1"><span *ngIf="tranuserex.userTypeName" >{{tranuserex.userTypeName}} </span></p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">User ASC Code</label>
+                                            <p class="pl-1"> <span *ngIf="tranuserex.userAsccode" >{{tranuserex.userAsccode}} </span></p>
+                                        </div>
+
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">ASC Category</label>
+                                            <p class="pl-1">{{tranuserex.ascCategoryName || ''}}</p>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="p-formgrid grid">
+
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Asc Position</label>
+                                            <p class="pl-1"><span *ngIf="tranuserex.ascPositionName" >{{tranuserex.ascPositionName}} </span></p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">User ASC Role</label>
+                                            <p class="pl-1"> <span *ngIf="tranuserex.email" >{{tranuserex.email}} </span></p>
+                                        </div>
+
+                                    </div>
+                                </p-panel>
+                            </div>
+
+                                <!-- {{(tranuserex.firstname + ' ' + tranuserex.lastname) || ''}} -->
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+
+
+            </p-table>
+
+        </div>
+    </div>
+</div>

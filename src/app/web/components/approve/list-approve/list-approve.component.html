@@ -1,0 +1,467 @@
+<!-- <div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+		<div class="card">
+		
+			<h4>Search</h4>
+
+		</div>
+		
+	</div>
+</div> -->
+
+<div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+		<div class="card">
+			<p-toolbar styleClass="mb-4 gap-2">
+				<h4 class="m-0">Approve Project</h4>
+			</p-toolbar>
+
+            <p-table #dt [value]="listProject" [rows]="10" dataKey="project_id" [paginator]="true"
+                responsiveLayout="scroll" [globalFilterFields]="['firstname','lastname','username','userStatus']" responsiveLayout="scroll"
+                [(selection)]="selectedProject" [rowHover]="true" [rowsPerPageOptions]="[10,25,50]"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+
+                    <div class="flex align-items-center justify-content-between">
+
+                        <span class="p-input-icon-left" style="width:auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                                placeholder="Search Project Name,Username " />
+                        </span>
+
+
+                    </div>
+
+				</ng-template>
+				<ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th> -->
+                        <th style="width: 1rem"></th>
+                        <th pSortableColumn="project_name">ชื่อโครงการ<p-sortIcon field="project_name"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="agency">หน่วยงาน<p-sortIcon field="agency"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="fiscal_year">ประจำปีงบประมาณ<p-sortIcon field="fiscal_year"></p-sortIcon>
+                        </th>
+
+                        <!-- <th pSortableColumn="orgName">Organization <p-sortIcon field="orgName"></p-sortIcon>
+                        </th> -->
+                        <th pSortableColumn="product">ผลผลิต<p-sortIcon field="product"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="created_date">Create<p-sortIcon field="created_date"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="updated_date">Update <p-sortIcon field="updated_date"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="project_status">Status <p-sortIcon field="project_status"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-project let-rowIndex="rowIndex" let-expanded="expanded">
+                    <tr>
+
+                        <td>
+                            <button type="button" pButton pRipple [pRowToggler]="project"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
+                        <td style="font-weight:600">
+                            {{project.project_name}} 
+                        </td>
+                        <td style="font-weight:600">
+                            {{(project.agency) || ''}} 
+                        </td>
+                        <td style="font-weight:600">
+                            {{project.fiscal_year}}
+                        </td>
+                       <!--  <td style="font-weight:600">
+                            {{tranuser.orgName || ''}}
+                        </td> -->
+                        <td style="font-weight:600">
+                            {{project.product || ''}}
+                        </td>
+                        <td>
+                            <i class="pi pi-calendar"></i> {{project.created_date | date: 'yyyy-MM-dd HH:mm:ss'}} <br>
+                            <i class="pi pi-user-edit"></i> {{project.created_by || ''}}
+                        </td>
+                        <td>
+                            <i class="pi pi-calendar"></i> {{project.updated_date | date: 'yyyy-MM-dd HH:mm:ss'}} <br>
+                            <i class="pi pi-user-edit"></i> {{project.updated_by || ''}}
+                        </td>
+                        <td>
+                            <span
+                                [class]="'product-badge status-' + (project.project_status == 'Success' ? 'instock' : 'lowstock')">{{project.project_status}}</span>
+                        </td>
+                    </tr>
+                </ng-template>
+
+
+                <ng-template pTemplate="rowexpansion" let-projectex>
+                   
+                    <tr>
+                        <td colspan="8">
+                            <div class="p-3">
+                                <div class="mb-5">
+
+
+                                    <p-toolbar styleClass="mb-4 gap-2">
+
+
+                                        <ng-template pTemplate="left">
+
+                                        <span class="p-input-icon-left" style="width:auto">
+                                            <span class="label-expansion">Create By : </span> <span class="mr-2">{{projectex.created_by}}</span>
+                                            <span class="label-expansion">Create Date : </span> <span>{{projectex.created_date | date: 'yyyy-MM-dd HH:mm:ss'}}</span> 
+                                            <br>
+                                            <span class="label-expansion">Update By : </span> <span class="mr-2">{{projectex.updated_by}}</span>
+                                            <span class="label-expansion">Update Date : </span> <span>{{projectex.updated_date | date: 'yyyy-MM-dd HH:mm:ss'}}</span> 
+                                        </span>
+
+                                      </ng-template>
+                
+                                        <ng-template pTemplate="right">
+                                            <a routerLink="/transuser/edit" label="Edit" [queryParams]="{ref : projectex.userId}" pButton pRipple icon="pi pi-pencil"
+                                            class="p-button-sm p-button-outlined" title="Edit" ></a>
+                                        </ng-template>
+                                    </p-toolbar>
+
+                                    <p-panel header="แบบเสนอโครงการ" [toggleable]="true">
+                                        <ng-template pTemplate="icons">
+                                            <p-menu #menu id="user_detail" [model]="items" [popup]="true"></p-menu>
+                                        </ng-template>
+    
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">หน่วยงาน</label>
+                                                <p class="pl-1">{{projectex.agency || ''}}</p>
+                                            </div>
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">ประจำปีงบประมาณ</label>
+                                                <p class="pl-1">{{projectex.fiscal_year || ''}}</p>
+                                            </div>
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">แหล่งงบประมาณ</label>
+                                                <p class="pl-1">{{projectex.budget || ''}}</p>
+                                            </div>
+                                            
+                                        </div>
+
+                                            <div class="p-formgrid grid">
+
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">ผลผลิต</label>
+                                                    <p class="pl-1">{{projectex.product || ''}}</p>
+                                                </div>
+
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">ผลผลิตย่อย</label>
+                                                    <p class="pl-1">{{projectex.sub_product || ''}}</p>
+                                                </div>
+
+                                                <div class="field col-12 md:col-4 pb-2">
+                                                    <label class="label-expansion">สถานะ</label>
+                                                    <p class="pl-1"><span
+                                                        [class]="'product-badge status-' + (projectex.project_status == 'ACTIVE' ? 'instock' : 'lowstock')">{{projectex.project_status}}</span></p>
+                                                </div>
+                                               
+                                                
+                                            </div>
+
+                                    </p-panel>
+                                </div>
+                                <div class="mb-5">
+                                <p-panel header="รายละเอียดโครงการ" class="mb-5" [toggleable]="true">
+
+
+
+                                    <ng-template pTemplate="icons">
+                                        <p-menu #menu id="other_information" [model]="items" [popup]="true"></p-menu>
+                                    </ng-template>
+
+                                    <div class="p-formgrid grid">
+
+                                        <div class="field col-12 md:col-8 pb-2">
+                                            <label class="label-expansion">1. ชื่อโครงการ</label>
+                                            <p class="pl-1"><span *ngIf="projectex.project_name" >{{projectex.project_name}} </span></p>
+                                        </div>
+
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">2. ลักษณะโครงการ</label>
+                                                <p class="pl-1"> <span *ngIf="projectex.project_character" >{{projectex.project_character}} </span></p>
+                                            </div>
+
+                                    </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">3.1 ยุทธศาสตร์</label>
+                                                <p class="pl-1">{{projectex.strategic || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">3.2 เป้าประสงค์</label>
+                                                <p class="pl-1">{{projectex.goal || ''}}</p>
+                                            </div>
+                                           <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">3.3 กลยุทธ์</label>
+                                                <p class="pl-1">{{projectex.strategy || ''}}</p>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">3.4 มาตรการ</label>
+                                                <p class="pl-1">{{projectex.measure || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">3.5 แผนงาน</label>
+                                                <p class="pl-1">{{projectex.plans || ''}}</p>
+                                            </div>
+                                            
+                                        </div>
+
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">4. หลักการและเหตุผล</label>
+                                                <p class="pl-1">{{projectex.reason || ''}}</p>
+                                            </div>               
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">5. วัตถุประสงค์</label>
+                                                <p class="pl-1">{{projectex.objective || ''}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">6.1 ผู้เข้าร่วมโครงการ (นักศึกษา) </label>
+                                                <p class="pl-1">{{projectex.target_group_student || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">6.2 ผู้เข้าร่วมโครงการ (บุคลากร) </label>
+                                                <p class="pl-1">{{projectex.target_group_personnel || ''}}</p>
+                                            </div>
+                                           <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">6.3 ผู้เข้าร่วมโครงการ (บุลคลนอก) </label>
+                                                <p class="pl-1">{{projectex.target_group_outsider || ''}}</p>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">7. ผู้รับผิดชอบโครงการ</label>
+                                                <p class="pl-1">{{projectex.user_id || ''}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">8. สถานที่ดำเนินโครงการ</label>
+                                                <p class="pl-1">{{projectex.place || ''}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">9. ระยะเวลาในการดำเนินโครงการ</label>
+                                                <p class="pl-1">{{projectex.objective || ''}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">10. กิจกรรมในการดำเนินโครงการ</label>
+                                                <p class="pl-1">{{projectex.implementation || ''}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">11. ตัวชี้วัดความสำเร็จของโครงการ</label>
+                                                <p class="pl-1">{{projectex.indicators || ''}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">12. ประมาณการค่าใช้จ่าย</label>
+                                                <p class="pl-1">{{projectex.cost || ''}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">13. ผลที่คาดว่าจะได้รับ</label>
+                                                <p class="pl-1">{{projectex.expect_result || ''}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-12 pb-2">
+                                                <label class="label-expansion">14. การประเมินผลโครงการ </label>
+                                                <p class="pl-1">{{projectex.project_evaluation || ''}}</p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-6 pb-2">
+                                                <label class="label-expansion">   วันเริ่มโครงการ</label>
+                                                <p class="pl-1">{{projectex.startdate | date: 'yyyy-MM-dd '}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-6 pb-2">
+                                                <label class="label-expansion">   วันสิ้นสุดโครงการ</label>
+                                                <p class="pl-1">{{projectex.enddate | date: 'yyyy-MM-dd '}}</p>
+                                            </div>
+                                           
+                                            
+                                        </div>
+
+                                </p-panel>
+                                <div class="mb-5"></div>
+                                <p-panel header="ลายเซ็นของโครงการ " [toggleable]="true">
+                                    <ng-template pTemplate="icons">
+                                        <p-menu #menu id="user_detail" [model]="items" [popup]="true"></p-menu>
+                                    </ng-template>
+
+                                    <div class="p-formgrid grid">
+
+                                        <div class="field col-12 md:col-6 pb-2">
+                                            <label class="label-expansion">ผู้เสนอโครงการ</label>
+                                            <p class="pl-1">{{projectex.created_by || ''}}</p>
+                                        </div>
+
+                                        <div class="field col-12 md:col-6 pb-2">
+                                            <label class="label-expansion">ผู้เห็นชอบโครงการ</label>
+                                            <p class="pl-1">{{projectex.created_by || ''}}</p>
+                                        </div>
+
+                                        
+                                    </div>
+                                    
+                                </p-panel>
+
+                              </div>
+
+                                <!-- {{(projectex.firstname + ' ' + projectex.lastname) || ''}} -->
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+				<ng-template pTemplate="summary">
+					<div class="flex align-items-center justify-content-between">
+						In total there are {{listProject ? listProject.length : 0 }} Project for Approve.
+					</div>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+
+<!-- UPDATE -->
+<p-dialog header="Edit" [(visible)]="displayResponsiveEditProfile" [modal]="true" [breakpoints]="{'1100px': '90vw'}"
+	[style]="{width: '40vw' }" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+	
+
+
+	<div class="field" >
+		<label htmlFor="div_id" class="required">Role</label>
+		<p-dropdown  [options]="dropdownTypeItemsStatus" optionLabel="name" optionValue="id"   [filter]="true" filterBy="name" [showClear]="true" placeholder="Select">
+		</p-dropdown>
+	</div>
+
+		<div class="field">
+			<label htmlFor="div_id" class="required">Username</label>
+			<p-dropdown [options]="dropdownTypeItemsStatus" optionLabel="name" optionValue="id"  [filter]="true" filterBy="name" [showClear]="true" placeholder="Select">
+			</p-dropdown>
+		</div>
+
+
+		<div class="field">
+			<label htmlFor="position_status">Status</label>
+			<div class="grid formgrid">
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="position_status" value="ACTIVE"  id="active">
+						</p-radioButton>
+						<label for="active">Active</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4 " >
+					<div class="field-radiobutton">
+						<p-radioButton name="position_status" value="INACTIVE"  id="inactive">
+						</p-radioButton>
+						<label for="inactive">InActive</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div [style]="{margin:'10vw' }"></div>
+
+
+	<ng-template pTemplate="footer">
+		<p-button (click)="displayResponsiveEditProfile=false" icon="pi pi-times" label="Cancel"
+		 styleClass="p-button-text p-button-secondary"></p-button>
+		<p-button  id="btn-edit" icon="pi pi-check" label="Save" styleClass="p-button-raised"
+		 [disabled]="btnEditIsdisable" [loading]="loading[1]">
+		</p-button>
+
+	</ng-template>
+
+</p-dialog>
+
+
+
+
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+
+	<ng-template pTemplate="footer">
+		<p-button styleClass="p-button-text p-button-secondary" icon="pi pi-times" label="No" (click)="cd.reject()">
+		</p-button>
+		<p-button icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+	</ng-template>
+
+</p-confirmDialog>
+
+<p-toast></p-toast>

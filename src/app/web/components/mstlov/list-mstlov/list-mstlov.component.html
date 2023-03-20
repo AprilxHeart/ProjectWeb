@@ -1,0 +1,442 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4 gap-2">
+                <h4 class="m-0">Manage List of Value</h4>
+            </p-toolbar>
+            <p-table #dt [value]="mstlov" [rows]="10" [paginator]="true" [paginator]="true" responsiveLayout="scroll"
+                [globalFilterFields]="['lovType']" responsiveLayout="scroll"
+                [(selection)]="mstlov" dataKey="lovId" [rowHover]="true" [rowsPerPageOptions]="[10,25,50]"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                                placeholder="Search LOV_TYPE " />
+                        </span>
+                        <button pButton pRipple label="Create" icon="pi pi-plus" class="p-button-primary mr-2" (click)="showResponsiveDialogCreateMstLov()"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 1rem"></th>
+
+                        <th pSortableColumn="lovId">
+                            Id
+                            <p-sortIcon field="lovId"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="lovParentId">
+                            Parent
+                            <p-sortIcon field="lovParentId"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="lovType">
+                            Type
+                            <p-sortIcon field="lovType"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="lovName">
+                            Name
+                            <p-sortIcon field="lovName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="createdBy">
+                            Created
+                            <p-sortIcon field="createdBy"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="updatedBy">
+                            Update
+                            <p-sortIcon field="updatedBy"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="lovStatus">
+                            Status
+                            <p-sortIcon field="status"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-mstlov let-rowIndex="rowIndex" let-expanded="expanded">
+                    <tr>
+                        <td>
+                            <button type="button" pButton pRipple [pRowToggler]="mstlov"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
+                        <td>
+                            {{mstlov.lovId || ''}}
+                        </td>
+                        <td>
+                            {{mstlov.lovParentId || ''}}
+                        </td>
+                        <td>
+                            {{mstlov.lovType || ''}}
+                        </td>
+                        <td>
+                            {{mstlov.lovName || ''}}
+                        </td>
+                        <td >
+                            <i class="pi pi-calendar"></i>
+                            {{mstlov.createdDate | date: 'yyyy-MM-dd HH:mm:ss'}}
+                            <br>
+                            <i class="pi pi-user-edit"></i>
+                            {{mstlov.createdBy}}
+
+                        </td>
+                        <td >
+                            <i class="pi pi-calendar"></i>
+                            {{mstlov.updatedDate | date: 'yyyy-MM-dd HH:mm:ss'}}
+                           <br>
+                            <i class="pi pi-user-edit"></i>
+                            {{mstlov.updatedBy}}
+
+                        </td>
+                    <td style="min-width: auto;"> <span [class]="'product-badge status-' + (mstlov.lovStatus == 'ACTIVE' ? 'instock' : 'outofstock')">
+                        {{mstlov.lovStatus}}</span>
+                    </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-mstlov>
+                    <tr>
+                        <td colspan="12">
+                            <div class="p-3">
+                                <div class="mb-5">
+                                    <p-toolbar styleClass="mb-4 gap-2">
+                                        <ng-template pTemplate="left">
+                                            <span class="p-input-icon-left" style="width:auto">
+                                                <span class="label-expansion">Create By : </span> <span class="mr-2">{{mstlov.createdBy}}</span>
+                                            <span class="label-expansion">Create Date : </span> <span>{{mstlov.createdDate | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+                                            <br>
+                                            <span class="label-expansion">Update By : </span> <span class="mr-2">{{mstlov.updatedBy}}</span>
+                                            <span class="label-expansion">Update Date : </span> <span>{{mstlov.updatedDate | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+                                            </span>
+
+                                        </ng-template>
+                                        <ng-template pTemplate="right">
+                                            <div class="px-2">
+                                                <a  pButton pRipple icon="pi pi-pencil"
+                                            class="p-button-sm" title="Edit" (click)="showResponsiveDialogUpdateMstLov(mstlov)"></a>
+                                        </div>
+                                        </ng-template>
+                                    </p-toolbar>
+                                    <p-panel header="List Of Value Detail" [toggleable]="true">
+                                        <ng-template pTemplate="icons">
+                                            <p-menu #menu id="mstlov_detail" [model]="items" [popup]="true"></p-menu>
+                                        </ng-template>
+                                        <div class="p-formgrid grid">
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">List Of Value Id</label>
+                                                <p class="pl-1"> {{ mstlov.lovId  || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">List Of Value Parent Id</label>
+                                                <p class="pl-1"> {{ mstlov.lovParentId  || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">List Of Value Name</label>
+                                                <p class="pl-1"> {{ mstlov.lovName  || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">List Of Value Dscription 1</label>
+                                                <p class="pl-1"> {{ mstlov.lovDes1 || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">List Of Value Dscription 2</label>
+                                                <p class="pl-1"> {{ mstlov.lovDes2 || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">List Of Value Dscription 3</label>
+                                                <p class="pl-1"> {{ mstlov.lovDes3 || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">List Of Value Dscription 4</label>
+                                                <p class="pl-1"> {{ mstlov.lovDes4 || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">List Of Value Dscription 5</label>
+                                                <p class="pl-1"> {{ mstlov.lovDes5 || ''}}</p>
+                                            </div>
+                                            <div class="field col-12 md:col-4 pb-2">
+                                                <label class="label-expansion">List of Value Status</label>
+                                                <p class="pl-1"> <span [class]="'product-badge status-' + (mstlov.lovStatus == 'ACTIVE' ? 'instock' : 'outofstock')">
+                                                    {{mstlov.lovStatus}}</span></p>
+                                            </div>
+                                        </div>
+                                    </p-panel>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<!-- CREATE -->
+<p-dialog header="Create" [(visible)]="displayResponsiveCreateMstLov" [modal]="true" [breakpoints]="{'1080px': '75vw'}"
+	[style]="{width: '60vw'}" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="grid formgrid">
+            <div class="col-12 mb-2 lg:col-4 lg:mb-0" >
+                <p-selectButton [options]="stateOptions" [(ngModel)]="value1" optionLabel="label" optionValue="value" (onChange)="selectButton()"></p-selectButton>
+            </div>
+        </div>
+
+        <div class="grid formgrid py-3">
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovType" class="required">Type</label>
+                <div class="py-2" *ngIf="value1 == 'off'">
+                    <p-dropdown appendTo="body" [options]="ddlType" optionLabel="name" [(ngModel)]="selectedddlType" [ngClass]="{'ng-invalid ng-dirty': typeInvalid}" placeholder="Please Select" [filter]="true" filterBy="name" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty': typeInvalid}">
+                        <ng-template pTemplate="selectedItem">
+                            <div class="country-item country-item-value" *ngIf="selectedddlType">
+                                <div>{{selectedddlType.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div class="py-2" *ngIf="value1 == 'on'">
+                    <input pInputText id="lovType"
+				name="lovType"
+                [(ngModel)]="lovType"
+                [ngClass]="{'ng-invalid ng-dirty': typeInvalid}"
+				type="text">
+                </div>
+            </div>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovId" class="required">Id</label>
+                <div class="py-2">
+                    <input pInputText id="lovId" [ngClass]="{'ng-invalid ng-dirty': idInvalid}"
+                    [(ngModel)]="lovId"
+				name="lovId"
+				type="text">
+                </div>
+            </div>
+
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovParentId">Parent Id</label>
+                <div class="py-2">
+                    <input pInputText id="lovParentId"
+                    [(ngModel)]="lovParentId"
+				name="lovParentId"
+				type="text">
+                </div>
+            </div>
+
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovName" class="required">Name</label>
+                <div class="py-2">
+                    <input pInputText id="lovName"
+                    [(ngModel)]="lovName"
+				name="lovName"
+				type="text" [ngClass]="{'ng-invalid ng-dirty': nameInvalid}">
+                </div>
+            </div>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovDes1" >Description 1</label>
+                <div class="py-2">
+                    <input pInputText id="lovDes1"
+                    [(ngModel)]="lovDes1"
+				name="lovDes1"
+				type="text">
+                </div>
+            </div>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovDes2" >Description 2</label>
+                <div class="py-2">
+                    <input pInputText id="lovDes2"
+                    [(ngModel)]="lovDes2"
+				name="lovDes2"
+				type="text">
+                </div>
+            </div>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovDes3" >Description 3</label>
+                <div class="py-2">
+                    <input pInputText id="lovDes3"
+                    [(ngModel)]="lovDes3"
+				name="lovDes3"
+				type="text">
+                </div>
+            </div>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovDes4" >Description 4</label>
+                <div class="py-2">
+                    <input pInputText id="lovDes4"
+                    [(ngModel)]="lovDes4"
+				name="lovDes4"
+				type="text">
+                </div>
+            </div>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovDes5" >Description 5</label>
+                <div class="py-2">
+                    <input pInputText id="lovDes5"
+                    [(ngModel)]="lovDes5"
+				name="lovDes5"
+				type="text">
+                </div>
+            </div>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="lovStatus" class="required">Status</label>
+                <div class="py-2">
+                    <p-dropdown appendTo="body" [options]="dropdownStatus" optionLabel="name"
+                    [(ngModel)]="selectmstStatus"
+                    [ngClass]="{'ng-invalid ng-dirty': mststatusInvalid}" >
+
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+                <label htmlFor="priority" >Priority</label>
+                <div class="py-2">
+                    <input pInputText id="priority"
+                    [(ngModel)]="priority"
+				name="priority"
+				type="text">
+                </div>
+            </div>
+        </div>
+        <!-- <div class="grid formgrid my-4">
+            <div class="col-12 md:col-6">
+                <button pButton pRipple type="button" label="LOV" icon="pi pi-plus" class="p-button-outlined p-button-sm" (click)="creatListListLov()"></button>
+
+        </div>
+        </div> -->
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <p-button  icon="pi pi-times" label="Cancel" (click)="linkback()"
+        styleClass="p-button-text p-button-secondary">
+        </p-button>
+        <p-button  styleClass="p-button-raised" icon="pi pi-check" (click)="creatListListLov()" label="Save" >
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- UPDATE -->
+<p-dialog header="Edit" [(visible)]="displayResponsiveUpdateMstLov" [modal]="true" [breakpoints]="{'1080px': '75vw'}"
+[style]="{width: '60vw'}" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+<ng-template pTemplate="content">
+
+    <div class="grid formgrid py-3">
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovType" class="required">Type</label>
+                <p-dropdown appendTo="body" [options]="ddlType" optionLabel="name" optionValue="name" [(ngModel)]="selectedddlEditType" [ngClass]="{'ng-invalid ng-dirty': typeInvalid}" placeholder="Please Select" [filter]="true" filterBy="name" [showClear]="true" [ngClass]="{'ng-invalid ng-dirty': typeInvalid}">
+                </p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovId" class="required">Id</label>
+            <div class="py-2">
+                <input disabled pInputText id="lovId" [ngClass]="{'ng-invalid ng-dirty': idInvalid}"
+                [(ngModel)]="lovId"
+            name="lovId"
+            type="text">
+            </div>
+        </div>
+
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovParentId">Parent Id</label>
+            <div class="py-2">
+                <input pInputText id="lovParentId"
+                [(ngModel)]="lovParentId"
+            name="lovParentId"
+            type="text">
+            </div>
+        </div>
+
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovName" class="required">Name</label>
+            <div class="py-2">
+                <input pInputText id="lovName"
+                [(ngModel)]="lovName"
+            name="lovName"
+            type="text" [ngClass]="{'ng-invalid ng-dirty': nameInvalid}">
+            </div>
+        </div>
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovDes1" >Description 1</label>
+            <div class="py-2">
+                <input pInputText id="lovDes1"
+                [(ngModel)]="lovDes1"
+            name="lovDes1"
+            type="text">
+            </div>
+        </div>
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovDes2" >Description 2</label>
+            <div class="py-2">
+                <input pInputText id="lovDes2"
+                [(ngModel)]="lovDes2"
+            name="lovDes2"
+            type="text">
+            </div>
+        </div>
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovDes3" >Description 3</label>
+            <div class="py-2">
+                <input pInputText id="lovDes3"
+                [(ngModel)]="lovDes3"
+            name="lovDes3"
+            type="text">
+            </div>
+        </div>
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovDes4" >Description 4</label>
+            <div class="py-2">
+                <input pInputText id="lovDes4"
+                [(ngModel)]="lovDes4"
+            name="lovDes4"
+            type="text">
+            </div>
+        </div>
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovDes5" >Description 5</label>
+            <div class="py-2">
+                <input pInputText id="lovDes5"
+                [(ngModel)]="lovDes5"
+            name="lovDes5"
+            type="text">
+            </div>
+        </div>
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="lovStatus" class="required">Status</label>
+            <div class="py-2">
+                <p-dropdown appendTo="body" [options]="dropdownStatus" optionLabel="name"
+                [(ngModel)]="selectmstStatus"
+                [ngClass]="{'ng-invalid ng-dirty': mststatusInvalid}" >
+
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0" >
+            <label htmlFor="priority" >Priority</label>
+            <div class="py-2">
+                <input pInputText id="priority"
+                [(ngModel)]="priority"
+            name="priority"
+            type="text">
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+    <ng-template pTemplate="footer">
+        <p-button  icon="pi pi-times" label="Cancel" (click)="linkback()"
+        styleClass="p-button-text p-button-secondary">
+        </p-button>
+        <p-button  styleClass="p-button-raised" icon="pi pi-check" (click)="EditLov()" label="Save" >
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+	<ng-template pTemplate="footer">
+		<p-button  styleClass="p-button-text p-button-secondary"  icon="pi pi-times" label="No" (click)="cd.reject()"></p-button>
+		<p-button    icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+	</ng-template>
+
+</p-confirmDialog>
+
+<p-toast></p-toast>

@@ -1,0 +1,364 @@
+<!-- <div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+		<div class="card">
+		
+			<h4>Search</h4>
+
+		</div>
+		
+	</div>
+</div> -->
+
+<div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+		<div class="card">
+			<p-toolbar styleClass="mb-4 gap-2">
+				<h4 class="m-0">Manage User Role member</h4>
+			</p-toolbar>
+
+			<p-table #dt [value]="userRoles" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+				[globalFilterFields]="['user_name','role_name','role_status','actors','status']"
+				responsiveLayout="scroll" [(selection)]="selectedUserRoles" [rowHover]="true" dataKey="role_member_id"
+				[rowsPerPageOptions]="[10,25,50]"
+				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+				[showCurrentPageReport]="true">
+				<ng-template pTemplate="caption">
+					<div class="flex align-items-center justify-content-between">
+
+						<span class="p-input-icon-left" style="width:auto">
+							<i class="pi pi-search"></i>
+							<input pInputText type="text"
+								(input)="dt.filterGlobal($any($event.target).value, 'contains')"
+								placeholder="Search User Role name member..." />
+						</span>
+
+						<button pButton pRipple label="Create" icon="pi pi-plus"
+							class="p-button-primary mr-2"
+							(click)="showResponsiveDialogCreateProfile()"></button>
+
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<!-- <th style="width: 3rem">
+							<p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+						</th> -->
+						<!-- <th pSortableColumn="userName">ID <p-sortIcon field="userName"></p-sortIcon>
+						</th> -->
+						<th style="width: 1rem"></th>
+						<th pSortableColumn="role_name">Role Name <p-sortIcon field="role_name"></p-sortIcon>
+						</th>
+
+						<th pSortableColumn="user_name">Username <p-sortIcon field="user_name"></p-sortIcon>
+						</th>
+
+						<!-- <th pSortableColumn="userName">SESSIONID <p-sortIcon field="userName"></p-sortIcon>
+						</th> -->
+
+						<th pSortableColumn="created_date">Create<p-sortIcon field="created_date"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="updated_date">Update <p-sortIcon field="updated_date"></p-sortIcon>
+                        </th>
+						<th pSortableColumn="role_status">Status <p-sortIcon field="role_status"></p-sortIcon>
+						</th>
+						<th></th>
+					</tr>
+				</ng-template>
+
+				<ng-template pTemplate="body" let-userRole let-rowIndex="rowIndex" let-expanded="expanded">
+					<tr>
+						<!-- <td>
+							<p-tableCheckbox [value]="product"></p-tableCheckbox>
+						</td> -->
+						<!-- <td style="font-weight:bold" >
+							<a (click)="showResponsiveDialogViewOrg(UserRole)">{{UserRole.user_profile_id || ''}}</a>
+						</td> -->
+						<td>
+                            <button type="button" pButton pRipple [pRowToggler]="userRole"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
+						<td style="font-weight:bold">
+							{{userRole.role_name || ''}}
+						</td>
+
+						<td>
+							{{userRole.user_name || ''}}
+						</td>
+						
+
+						
+						<td>
+                            <i class="pi pi-calendar"></i> {{userRole.updated_date | date: 'yyyy-MM-dd HH:mm:ss'}} <br>
+                            <i class="pi pi-user-edit"></i> {{userRole.updated_by|| ''}}
+                        </td>
+                        <td>
+                            <i class="pi pi-calendar"></i> {{userRole.created_date | date: 'yyyy-MM-dd HH:mm:ss'}} <br>
+                            <i class="pi pi-user-edit"></i> {{userRole.created_by || ''}}
+                        </td>
+
+						<td>
+							<span
+								[class]="'product-badge status-' + (userRole.role_status == 'ACTIVE' ? 'instock' : 'outofstock')">{{userRole.role_status}}</span>
+						</td>
+
+					</tr>
+				</ng-template>
+
+				<ng-template pTemplate="rowexpansion" let-userRole>
+                   
+                    <tr>
+                        <td colspan="12">
+                            <div class="p-3">
+                                <div class="mb-5">
+
+
+                                    <p-toolbar styleClass="mb-4 gap-2">
+
+
+                                        <ng-template pTemplate="left">
+
+                                        <span class="p-input-icon-left" style="width:auto">
+                                            <span class="label-expansion">Create By : </span> <span class="mr-2">{{userRole.created_by }}</span>
+                                            <span class="label-expansion">Create Date : </span> <span>{{userRole.created_date | date: 'yyyy-MM-dd HH:mm:ss'}}</span> 
+                                            <br>
+                                            <span class="label-expansion">Update By : </span> <span class="mr-2">{{userRole.updated_by }}</span>
+                                            <span class="label-expansion">Update Date : </span> <span>{{userRole.updated_date | date: 'yyyy-MM-dd HH:mm:ss'}}</span> 
+                                        </span>
+
+                                      </ng-template>
+                
+                                      <ng-template pTemplate="right">
+                                        <!-- <button pButton pRipple icon="pi pi-pencil"
+                                            class="p-button-sm" title="Edit" (click)="linkEditTranUser(tranuserex.userId)"></button> -->
+                                            <a  pButton pRipple icon="pi pi-pencil"
+                                            class="p-button-sm p-button-outlined" label="Edit" title="Edit" (click)="showResponsiveDialogEditProfile(userRole)"></a>
+                                        </ng-template>
+                                    </p-toolbar>
+
+                                    <p-panel header="User Role Detail" [toggleable]="true">
+
+                                        <ng-template pTemplate="icons">
+                                            <p-menu #menu id="user_detail" [model]="items" [popup]="true"></p-menu>
+                                        </ng-template>
+    
+
+                                        <div class="p-formgrid grid">
+
+                                            <div class="field col-12 md:col-6 pb-2">
+                                                <label class="label-expansion">Role Name  </label>
+                                                <p class="pl-1"> {{(userRole.role_name ) || ''}}</p>
+                                            </div>
+
+                                            <div class="field col-12 md:col-6 pb-2">
+                                                <label class="label-expansion">Role Action</label>
+                                                <p class="pl-1">{{userRole.actors || ''}}</p>
+                                            </div>
+                                            
+
+                                        </div>
+
+                                            <div class="p-formgrid grid">
+
+                                                
+                                               <div class="field col-12 md:col-6 pb-2">
+                                                    <label class="label-expansion">Username</label>
+                                                    <p class="pl-1">{{userRole.user_name || ''}}</p>
+                                                </div>
+												<div class="field col-12 md:col-6 pb-2">
+                                                    <label class="label-expansion">Status</label>
+                                                    <p class="pl-1"><span
+                                                        [class]="'product-badge status-' + (userRole.role_status == 'ACTIVE' ? 'instock' : 'outofstock')">{{userRole.role_status}}</span></p>
+                                                </div>
+                                                
+                                               
+                                                
+                                            </div>
+
+
+                                    </p-panel>
+                                </div>
+                                <!-- {{(tranuserex.firstname + ' ' + tranuserex.lastname) || ''}} -->
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+
+				<ng-template pTemplate="summary">
+					<div class="flex align-items-center justify-content-between">
+						In total there are {{userRoles ? userRoles.length : 0 }} User Role member.
+					</div>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+
+
+<!-- UPDATE -->
+<p-dialog header="Edit" [(visible)]="displayResponsiveEditProfile" [modal]="true" [breakpoints]="{'1100px': '90vw'}"
+	[style]="{width: '40vw' }" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+	
+
+
+	<div class="field" >
+		<label htmlFor="div_id" class="required">Role</label>
+		<p-dropdown  [options]="dropdownTypeItemsRole" optionLabel="name" optionValue="id"  (onChange)="check()" [(ngModel)]="selectedEditRole" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select">
+		</p-dropdown>
+	</div>
+
+		<div class="field">
+			<label htmlFor="div_id" class="required">Username</label>
+			<p-dropdown [options]="dropdownTypeItemsUser" optionLabel="name" optionValue="id" (onChange)="check2()" [(ngModel)]="selectedEditUser" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select">
+			</p-dropdown>
+		</div>
+
+
+		<div class="field">
+			<label htmlFor="position_status">Status</label>
+			<div class="grid formgrid">
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="position_status" value="ACTIVE" [(ngModel)]="userRole.role_status" id="active">
+						</p-radioButton>
+						<label for="active">Active</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4 " >
+					<div class="field-radiobutton">
+						<p-radioButton name="position_status" value="INACTIVE" [(ngModel)]="userRole.role_status" id="inactive">
+						</p-radioButton>
+						<label for="inactive">InActive</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div [style]="{margin:'10vw' }"></div>
+
+
+	<ng-template pTemplate="footer">
+		<p-button (click)="displayResponsiveEditProfile=false" icon="pi pi-times" label="Cancel"
+		 styleClass="p-button-text p-button-secondary"></p-button>
+		<p-button (click)="editProfile(1)" id="btn-edit" icon="pi pi-check" label="Save" styleClass="p-button-raised"
+		 [disabled]="btnEditIsdisable" [loading]="loading[1]">
+		</p-button>
+
+	</ng-template>
+
+</p-dialog>
+
+<!-- CREATE -->
+<p-dialog header="Create" [(visible)]="displayResponsiveCreateProfile" [modal]="true" [breakpoints]="{'1100px': '90vw'}"
+	[style]="{width: '40vw'  }" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+
+
+	
+
+	<div class="field">
+		<label htmlFor="div_id" class="required">Role</label>
+		<p-dropdown [options]="dropdownTypeItemsRole" class="p-inputtext-sm" 
+	[(ngModel)]="selectedCreateRole"  optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Please Select">
+	</p-dropdown>
+	</div>
+
+	<div  >
+		<div class="field">
+			<label htmlFor="div_id" class="required">Username</label>
+			<p-dropdown [options]="dropdownTypeItemsUser" class="p-inputtext-sm" 
+			[(ngModel)]="selectedCreateUser"  optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Please Select">
+			</p-dropdown>
+		</div>
+
+
+		<div class="field">
+			<label htmlFor="position_status">Status</label>
+			<div class="grid formgrid">
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="position_status" value="ACTIVE" [(ngModel)]="profileStatusRadio" id="active">
+						</p-radioButton>
+						<label for="active">Active</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="position_status" value="INACTIVE" [(ngModel)]="profileStatusRadio" id="inactive">
+						</p-radioButton>
+						<label for="inactive">InActive</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid formgrid my-4">
+		<div class="col-12 md:col-6">
+			<div style="display: block;
+			margin: auto;">
+			<button pButton pRipple label="User Role Member" icon="pi pi-plus" (click)="creatList()"></button>
+			</div>
+		</div>
+	</div>
+		<p-table #dt [value]="mylistdata"
+	[(selection)]="mylistdata"
+ >
+    <ng-template pTemplate="header">
+        <tr>
+			<th >
+				Role Name
+		 </th>
+            <th>
+                User Name
+            </th>
+            <th >
+				Status
+            </th>
+			<th >
+				
+            </th>
+          </tr>
+         </ng-template>
+         <ng-template pTemplate="body" let-mylistdata>
+        <tr>
+			<td style="min-width: auto;">
+                {{mylistdata.role_name}}
+            </td>
+            <td style="min-width: auto;">
+                {{mylistdata.user_name || ''}}
+            </td>
+            <td style="min-width: auto;">
+                {{mylistdata.role_status}}
+            </td>
+			<td>
+				<button (click)="deletelist(mylistdata.idx)" pButton pRipple icon="pi pi-times" title="Delete {{mylistdata.role_name}}"   class="p-button-sm p-button-raised p-button-text"></button>
+			</td>
+        </tr>
+        </ng-template>
+</p-table>
+
+	</div>
+	<!-- </ng-template> -->
+
+
+	<ng-template pTemplate="footer">
+		<p-button (click)="displayResponsiveCreateProfile=false" icon="pi pi-times" label="Cancel"
+			styleClass="p-button-text p-button-secondary"></p-button>
+		<p-button (click)="createProfile(0)" styleClass="p-button-raised" icon="pi pi-check" label="Save"
+			[loading]="loading[0]">
+		</p-button>
+	</ng-template>
+
+
+</p-dialog>
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+
+	<ng-template pTemplate="footer">
+		<p-button styleClass="p-button-text p-button-secondary" icon="pi pi-times" label="No" (click)="cd.reject()">
+		</p-button>
+		<p-button icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+	</ng-template>
+
+</p-confirmDialog>
+
+<p-toast></p-toast>

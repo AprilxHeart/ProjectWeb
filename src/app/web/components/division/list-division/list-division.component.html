@@ -1,0 +1,514 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <!-- <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Create" icon="pi pi-plus" class="p-button-success mr-2" (click)="showResponsiveDialogCreateDivision()"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+
+                </ng-template>
+            </p-toolbar> -->
+            <p-toolbar styleClass="mb-4 gap-2">
+				<h4 class="m-0">Manage Division</h4>
+			</p-toolbar>
+
+			<p-table #dt [value]="division" [rows]="10" [paginator]="true"  [paginator]="true"  responsiveLayout="scroll"
+            [globalFilterFields]="['locName','divisionName','locCode','divisionStatus']"
+            responsiveLayout="scroll"
+            [(selection)]="division"
+            dataKey="divId"
+            [rowHover]="true"
+            [rowsPerPageOptions]="[10,25,50]"
+				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+				[showCurrentPageReport]="true"
+                >
+            <ng-template pTemplate="caption">
+
+                <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+
+                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search DIVISION CODE,NAME,STATUS...." />
+                    </span>
+                    <button pButton pRipple label="Create" icon="pi pi-plus" class="p-button-primary mr-2" (click)="showResponsiveDialogCreateDivision()"></button>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 1rem"></th>
+                    <th pSortableColumn="orgName" >
+                        Organization Name
+                     <p-sortIcon field="orgName"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="divisionName">
+                           Division Name
+                    <p-sortIcon field="divisionName"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="divisionparent">
+                            Division Parent
+                    <p-sortIcon field="divisionparent"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="locCode">
+                            Location Code
+                    <p-sortIcon field="locCode"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="locName">
+                            Location Name
+                    <p-sortIcon field="locName"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="divisionType">
+                            Divition Type
+                    <p-sortIcon field="divisionType"></p-sortIcon>
+                    </th>
+
+
+
+                <th pSortableColumn="createdBy">
+                            Created
+                            <p-sortIcon field="createdBy"></p-sortIcon>
+                </th>
+
+
+                    <th pSortableColumn="updatedBy">
+
+                            Update
+                            <p-sortIcon field="updatedBy"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="divisionStatus">
+                        Status
+                        <p-sortIcon field="status"></p-sortIcon>
+                </th>
+
+
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-division let-rowIndex="rowIndex" let-expanded="expanded">
+                <tr>
+                    <td>
+                        <button type="button" pButton pRipple [pRowToggler]="division"
+                            class="p-button-text p-button-rounded p-button-plain"
+                            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                    <td >
+                        {{division.orgName || ''}}
+                    </td>
+                    <td >
+                        {{division.divisionName}}
+                    </td>
+                    <td >
+                        {{division.divParentName}}
+                    </td>
+                    <td style="min-width: auto;">
+                        {{division.locCode}}
+                    </td>
+                    <td >
+                        {{division.locName}}
+                    </td>
+                    <td >
+                        {{division.divisionType}}
+                     </td>
+                    <!-- <td style="min-width: auto;">
+                         {{division.divisionCode}}
+                    </td> -->
+
+                    <!-- <td style="min-width: auto;">
+                        {{division.partnerFlag}}
+                    </td> -->
+                    <td >
+                        <i class="pi pi-calendar"></i>
+                        {{division.createdDate | date: 'yyyy-MM-dd HH:mm:ss'}}
+                        <br>
+                        <i class="pi pi-user-edit"></i>
+                        {{division.createdBy}}
+
+                    </td>
+
+
+                    <td >
+                        <i class="pi pi-calendar"></i>
+                        {{division.updatedDate | date: 'yyyy-MM-dd HH:mm:ss'}}
+                       <br>
+                        <i class="pi pi-user-edit"></i>
+                        {{division.updatedBy}}
+
+                    </td>
+                    <td style="min-width: auto;"> <span [class]="'product-badge status-' + (division.divisionStatus == 'ACTIVE' ? 'instock' : 'outofstock')">
+                        {{division.divisionStatus}}</span>
+                    </td>
+
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-division>
+                <tr>
+                    <td colspan="12">
+                        <div class="p-3">
+                            <div class="mb-5">
+                                <p-toolbar styleClass="mb-4 gap-2">
+                                    <ng-template pTemplate="left">
+                                        <span class="p-input-icon-left" style="width:auto">
+                                            <span class="label-expansion">Create By : </span> <span class="mr-2">{{division.createdBy}}</span>
+                                            <span class="label-expansion">Create Date : </span> <span>{{division.createdDate | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+                                            <br>
+                                            <span class="label-expansion">Update By : </span> <span class="mr-2">{{division.updatedBy}}</span>
+                                            <span class="label-expansion">Update Date : </span> <span>{{division.updatedDate | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+                                        </span>
+                                    </ng-template>
+                                    <ng-template pTemplate="right">
+                                        <div class="px-2">
+                                            <a  pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-sm" title="Edit" (click)="showResponsiveDialogEditDivision(division)"></a>
+                                        </div>
+                                        <div class="px-2"><button pButton pRipple  icon="pi pi-plus" title="Create User" class="p-button-sm p-button-raised p-button-text " ></button></div>
+                                        <a routerLink="/position" title="Create Position" class="p-button-sm p-button-raised p-button-text mr-2" (click)="linkCreatePosition(division.divId)" [queryParams]="{ref : division.divId}" pButton pRipple icon="pi pi-plus"></a>
+                                    
+                                    </ng-template>
+
+                                </p-toolbar>
+
+                                <p-panel header="Division Detail" [toggleable]="true">
+
+                                    <ng-template pTemplate="icons">
+                                        <p-menu #menu id="division_detail" [model]="items" [popup]="true"></p-menu>
+                                    </ng-template>
+
+                                    <div class="p-formgrid grid">
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Organization Name</label>
+                                            <p class="pl-1"> {{ division.orgName  || ''}}</p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Division Name</label>
+                                            <p class="pl-1"> {{ division.divisionName  || ''}}</p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Division Parent</label>
+                                            <p class="pl-1"> {{ division.divParentName  || ''}}</p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Location Code</label>
+                                            <p class="pl-1"> {{ division.locCode  || ''}}</p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Location Name</label>
+                                            <p class="pl-1"> {{ division.Name  || ''}}</p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Division Type</label>
+                                            <p class="pl-1"> {{ division.divisionType  || ''}}</p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Division Code</label>
+                                            <p class="pl-1"> {{ division.divisionCode  || ''}}</p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Division Status</label>
+                                            <p class="pl-1"> <span [class]="'product-badge status-' + (division.divisionStatus == 'ACTIVE' ? 'instock' : 'outofstock')">
+                                                {{division.divisionStatus}}</span></p>
+                                        </div>
+                                        <div class="field col-12 md:col-4 pb-2">
+                                            <label class="label-expansion">Partner Flag</label>
+                                            <p class="pl-1"> {{ division.partnerFlag  || ''}}</p>
+                                        </div>
+                                    </div>
+                                </p-panel>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        </div>
+    </div>
+</div>
+
+<!-- CREATE -->
+<p-dialog header="Create" [(visible)]="displayResponsiveCreateDivision" [modal]="true" [breakpoints]="{'1080px': '75vw'}"
+	[style]="{width: '70vw'}" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="grid formgrid">
+            <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                <label htmlFor="orgname" class="required">Organization Name</label>
+                <p-dropdown appendTo="body" [options]="dropdownOrg" optionLabel="name"
+                (onChange)="defaultFlag()"
+                [(ngModel)]="selectedCreateOrgName"
+
+                [ngClass]="{'ng-invalid ng-dirty': orgnameInvalid}">
+                </p-dropdown>
+            </div>
+            <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                <label htmlFor="divitiontype" >Division Type
+                </label>
+                <p-dropdown appendTo="body" [options]="dropdownTypeItems" optionLabel="name"   [(ngModel)]="selectedCreateDivisionTypeMstLov" >
+                </p-dropdown>
+            </div>
+            <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                <label htmlFor="divisionname" class="required">Division Name
+                </label>
+                <input pInputText id="divisionname"
+				name="divisionname"
+				[(ngModel)]="divisionName"
+				type="text"
+				[ngClass]="{'ng-invalid ng-dirty': divisionnameInvalid}"
+				autocomplete="off"  />
+            </div>
+    </div>
+    <div class="grid formgrid my-4">
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+            <label htmlFor="divisionstatus" class="required">Division Status
+            </label>
+            <p-dropdown appendTo="body" [options]="dropdownStatus" optionLabel="name"
+            [(ngModel)]="selectdivisionStatus"
+            [ngClass]="{'ng-invalid ng-dirty': divisionstatusInvalid}">
+            </p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+            <label htmlFor="divisionparent" >Division Parent
+            </label>
+            <p-dropdown appendTo="body" [options]="dropdownParent" optionLabel="name"
+            [(ngModel)]="selecteddivisionParent"
+           >
+            </p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+            <label htmlFor="divisioncode">Division Code
+            </label>
+            <input pInputText id="divisioncode"
+            name="divisioncode"
+            [(ngModel)]="divisionCode"
+            type="text"
+            autocomplete="off"  />
+        </div>
+    </div>
+    <div class="grid formgrid my-4">
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+            <label htmlFor="location">Location
+            </label>
+            <p-dropdown appendTo="body" [options]="dropdownLocation" optionLabel="name"   [(ngModel)]="selectedLocation">
+
+            </p-dropdown>
+
+        </div>
+        <div class="col-12 md:col-6">
+            <label htmlFor="flag">Partner Flag</label>
+        <div class="field-radiobutton my-2">
+            <div class="col-12 md:col-6"><p-radioButton  name="partnerflag" value="ACTIVE" [(ngModel)]="divisionFlag" id="active"  [disabled]="true" >
+            </p-radioButton>
+            <label for="flag"> Active</label>
+        </div>
+        <div class="col-12 md:col-6">
+             <p-radioButton  name="partnerflag" value="INACTIVE" [(ngModel)]="divisionFlag" id="inactive"  [disabled]="true" >
+            </p-radioButton>
+            <label for="active"> InActive</label>
+        </div>
+    </div>
+    </div>
+    </div>
+    <div class="grid formgrid my-4">
+        <div class="col-12 md:col-6">
+            <button pButton pRipple type="button" label="DIVISION" icon="pi pi-plus" class="p-button-outlined p-button-sm" (click)="creatListDivision()"></button>
+        <!-- <button pButton pRipple label="DIVISION" icon="pi pi-plus" (click)="creatListDivision()"></button> -->
+    </div>
+    </div>
+
+
+<p-table #dt [value]="bodyListFinal"
+[(selection)]="bodyListFinal"
+ >
+    <ng-template pTemplate="header" >
+        <tr>
+            <th>
+                Organization Name
+            </th>
+            <th >
+                   Division Name
+            </th>
+            <th >
+                    Division Parent
+            </th>
+
+            <th>
+                    Location Name
+            </th>
+            <th>
+                    Divition Type
+            </th>
+            <th >
+                    Divition Code
+            </th>
+            <th >
+                    Division Status
+            </th>
+            <th >
+                Division Flag
+            </th>
+            <th >
+
+            </th>
+          </tr>
+         </ng-template>
+         <ng-template pTemplate="body" let-bodyListFinal>
+        <tr>
+            <td style="min-width: auto;">
+                {{bodyListFinal.orgId || ''}}
+            </td>
+            <td style="min-width: auto;">
+                {{bodyListFinal.divisionName}}
+            </td>
+            <td style="min-width: auto;">
+                {{bodyListFinal.divParentId}}
+            </td>
+            <td style="min-width: auto;">
+                {{bodyListFinal.locId}}
+            </td>
+            <td style="min-width: auto;">
+                {{bodyListFinal.divisionType}}
+            </td>
+            <td style="min-width: auto;">
+                 {{bodyListFinal.divisionCode}}
+            </td>
+            <td style="min-width: auto;">
+                {{bodyListFinal.divisionStatus}}
+            </td>
+            <td style="min-width: auto;">
+                {{bodyListFinal.partnerFlag}}
+            </td>
+            <td>
+				<button (click)="deleteList(bodyListFinal.idx)" pButton pRipple icon="pi pi-times"    class="p-button-sm p-button-raised p-button-text">
+                </button>
+			</td>
+        </tr>
+        </ng-template>
+</p-table>
+
+
+</ng-template>
+    <ng-template pTemplate="footer">
+        <p-button (click)="linkback()" icon="pi pi-times" label="Cancel"
+        styleClass="p-button-text p-button-secondary">
+        </p-button>
+        <p-button   icon="pi pi-check" (click)="creatDivision()" styleClass="p-button" label="Save" >
+        </p-button>
+
+    </ng-template>
+</p-dialog>
+
+
+
+<!-- UPDATE -->
+<p-dialog header="Edit" [(visible)]="displayResponsiveEditDivision" [modal]="true" [breakpoints]="{'1080px': '75vw'}"
+	[style]="{width: '70vw'}" styleClass="p-fluid" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="grid formgrid">
+            <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                <label htmlFor="orgName" class="required">Organization Name</label>
+                <p-dropdown appendTo="body" [options]="dropdownOrg" optionLabel="name"
+                (onChange)="defaultEditFlag()"
+                [(ngModel)]="selectedEditOrgName"
+                optionValue="name"
+                [ngClass]="{'ng-invalid ng-dirty': orgnameInvalid}">
+                </p-dropdown>
+            </div>
+            <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                <label htmlFor="divitiontype" >Division Type
+                </label>
+                <p-dropdown appendTo="body" [options]="dropdownTypeItems" optionLabel="name" optionValue="id"  [(ngModel)]="selectedEditDivisionTypeMstLov" >
+                </p-dropdown>
+            </div>
+            <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                <label htmlFor="divisionname" class="required">Division Name
+                </label>
+                <input pInputText id="divisionname"
+				name="divisionname"
+				[(ngModel)]="divisionName"
+				type="text"
+				[ngClass]="{'ng-invalid ng-dirty': divisionnameInvalid}"
+				autocomplete="off"  />
+            </div>
+    </div>
+    <div class="grid formgrid my-4">
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+            <label htmlFor="divisionstatus" class="required">Division Status
+            </label>
+            <p-dropdown appendTo="body" [options]="dropdownStatus" optionLabel="name"
+            [(ngModel)]="selectedEditdivisionStatus"
+            optionValue="name"
+            [ngClass]="{'ng-invalid ng-dirty': divisionstatusInvalid}">
+            </p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+            <label htmlFor="divParentName" >Division Parent
+            </label>
+            <p-dropdown appendTo="body" [options]="dropdownParent" optionLabel="name" optionValue="id"
+            (onChange)="checkParentDropdown(selectedEditdivisionParent)"
+            [(ngModel)]="selectedEditdivisionParent">
+            </p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+            <label htmlFor="divisioncode">Division Code
+            </label>
+            <input pInputText id="divisioncode"
+            name="divisioncode"
+            [(ngModel)]="divisionCode"
+            type="text"
+            autocomplete="off"  />
+        </div>
+    </div>
+    <div class="grid formgrid my-4">
+        <div class="col-12 mb-2 lg:col-6 lg:mb-0">
+            <label htmlFor="location">Location
+            </label>
+            <p-dropdown appendTo="body" [options]="dropdownLocation" optionLabel="name"  optionValue="name" [(ngModel)]="selectedEditLocation">
+
+            </p-dropdown>
+
+        </div>
+        <div class="col-12 md:col-6">
+            <label htmlFor="flag">Partner Flag</label>
+        <div class="field-radiobutton my-2">
+            <div class="col-12 md:col-6"><p-radioButton  name="partnerflag" value="ACTIVE" [(ngModel)]="divisionFlag" id="active"  [disabled]="true" >
+            </p-radioButton>
+            <label for="flag"> Active</label>
+        </div>
+        <div class="col-12 md:col-6">
+             <p-radioButton  name="partnerflag" value="INACTIVE" [(ngModel)]="divisionFlag" id="inactive"  [disabled]="true" >
+            </p-radioButton>
+            <label for="active"> InActive</label>
+        </div>
+    </div>
+    </div>
+    </div>
+
+</ng-template>
+    <ng-template pTemplate="footer">
+        <p-button (click)="displayResponsiveEditDivision=false" icon="pi pi-times" label="Cancel"
+        styleClass="p-button-text p-button-secondary">
+        </p-button>
+        <p-button  styleClass="p-button-raised" icon="pi pi-check" (click)="updateDivision()" label="Save" [disabled]="btnEditIsdisable" >
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+	<ng-template pTemplate="footer">
+		<p-button  styleClass="p-button-text p-button-secondary"  icon="pi pi-times" label="No" (click)="cd.reject()"></p-button>
+		<p-button    icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+	</ng-template>
+
+</p-confirmDialog>
+
+<p-toast></p-toast>
+

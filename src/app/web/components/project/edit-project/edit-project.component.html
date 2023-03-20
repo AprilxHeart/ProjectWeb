@@ -1,0 +1,286 @@
+<div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4 gap-2">
+                <h4 class="m-0">Edit Project</h4>
+            </p-toolbar>
+
+            <p-panel header="แบบเสนอโครงการ" styleClass="mb-4">
+                <div class="p-formgrid grid">
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="agency" class="required">หน่วยงาน</label>
+                        <p-dropdown appendTo="body"  [options]="dropdownTypeItemsTEST06" optionLabel="name" optionValue="name" placeholder="Please Select"
+                        [(ngModel)]="agency" >
+                    </p-dropdown>
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="position" class="required">ประจำปีงบประมาณ</label>
+                        <p-dropdown appendTo="body"  [options]="dropdownTypeItemsYear" optionLabel="name" optionValue="name" placeholder="Please Select"
+                        [(ngModel)]="fiscal_year" >
+                    </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="transUsername" >แหล่งงบประมาณ</label>
+                        <p-dropdown appendTo="body"  [options]="dropdownTypeItemsTEST02" optionLabel="name" optionValue="name" placeholder="Please Select"
+                        [(ngModel)]="budget" >
+                    </p-dropdown>
+                    </div>
+                </div>
+
+                <div class="p-formgrid grid">
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="transprefixName">ผลผลิต</label>
+                        <p-dropdown appendTo="body"  [options]="dropdownTypeItemsTEST03" optionLabel="name" optionValue="name" placeholder="Please Select"
+                        [(ngModel)]="product" >
+                    </p-dropdown>
+                    </div>
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="firstname2" class="required">ผลผลิตย่อย</label>
+                        <input pInputText id="remark" [(ngModel)]="project.sub_product" class="p-inputtext-sm" type="text" />
+                    </div>
+
+                </div>
+
+                
+
+            </p-panel>
+
+            <p-panel header="รายละเอียดโครงการ" styleClass="mb-4">
+
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">1. ชื่อโครงการ</label>
+                        <input pInputText id="userCode" [(ngModel)]="project.project_name" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"  />
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="email">2. ลักษณะโครงการ</label>
+                        <p-dropdown appendTo="body"  [options]="dropdownTypeItemsTEST04" optionLabel="name" optionValue="name" placeholder="Please Select"
+                        [(ngModel)]="project_character" >
+                    </p-dropdown>
+                    </div>
+
+
+                </div>
+                <div class="p-formgrid grid" >
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="phone">3.1 ยุทธศาสตร์</label>
+                        <p-dropdown appendTo="body"  [options]="dropdownTypeItemsTEST05" optionLabel="name" optionValue="name" placeholder="Please Select"
+                        [(ngModel)]="strategic" >
+                    </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="age1">3.2 เป้าประสงค์</label>
+                        <input pInputText id="email" [(ngModel)]="project.goal" class="p-inputtext-sm" type="text" />
+                    </div>
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="remark">3.3 กลยุทธ์</label>
+                        <input pInputText id="remark" [(ngModel)]="project.strategy" class="p-inputtext-sm" type="text" />
+                    </div>
+                </div>
+
+
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="effectiveStratDate">3.4 มาตรการ</label>
+                        <input pInputText id="email" [(ngModel)]="project.measure" class="p-inputtext-sm" type="text" />
+                    </div>
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="effectiveEndDate">3.5 แผนงาน</label>
+                        <input pInputText id="email" [(ngModel)]="project.plans" class="p-inputtext-sm" type="text" />
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">4. หลักการและเหตุผล</label>
+                        <textarea [rows]="5" [cols]="30" pInputTextarea [autoResize]="true" id="userCode" [(ngModel)]="project.reason" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"></textarea>
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">5. วัตถุประสงค์</label>
+                        <textarea [rows]="5" [cols]="30" pInputTextarea [autoResize]="true" id="userCode" [(ngModel)]="project.objective" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"></textarea>
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="userCode">6.1 ผู้เข้าร่วมโครงการ (นักศึกษา) </label>
+                        <input pInputText id="userCode" [(ngModel)]="project.target_group_student" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"  />
+                    </div>
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="userCode">6.2 ผู้เข้าร่วมโครงการ (บุคลากร) </label>
+                        <input pInputText id="userCode" [(ngModel)]="project.target_group_personnel" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"  />
+                    </div>
+                    <div class="field col-12 md:col-4 pb-2">
+                        <label htmlFor="userCode">6.3 ผู้เข้าร่วมโครงการ (บุลคลนอก) </label>
+                        <input pInputText id="userCode" [(ngModel)]="project.target_group_outsider" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"  />
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">7. ผู้รับผิดชอบโครงการ </label>
+                        <p-dropdown [options]="dropdownTypeItemsUser" optionLabel="name" optionValue="id"  [(ngModel)]="project.user_id" [filter]="true" filterBy="name" [showClear]="true" placeholder="Please Select">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">8. สถานที่ดำเนินโครงการ   </label>
+                        <input pInputText id="userCode" [(ngModel)]="project.place" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"  />
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">9. ระยะเวลาในการดำเนินโครงการ</label>
+                        <input pInputText id="userCode" [(ngModel)]="project.period" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"  />
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">10. กิจกรรมในการดำเนินโครงการ</label>
+                        <textarea [rows]="5" [cols]="30" pInputTextarea [autoResize]="true" id="userCode" [(ngModel)]="project.implementation" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"></textarea>
+                    </div>
+                </div>
+
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">11. ตัวชี้วัดความสำเร็จของโครงการ </label>
+                        <textarea [rows]="5" [cols]="30" pInputTextarea [autoResize]="true" id="userCode" [(ngModel)]="project.indicators" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"></textarea>
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">12. ประมาณการค่าใช้จ่าย</label>
+                        <input pInputText id="userCode" [(ngModel)]="project.cost" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"  />
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">13. ผลที่คาดว่าจะได้รับ</label>
+                        <textarea [rows]="5" [cols]="30" pInputTextarea [autoResize]="true" id="userCode" [(ngModel)]="project.expect_result" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"></textarea>
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-12 pb-2">
+                        <label htmlFor="userCode">14. การประเมินผลโครงการ </label>
+                        <textarea [rows]="5" [cols]="30" pInputTextarea [autoResize]="true" id="userCode" [(ngModel)]="project.project_evaluation" class="p-inputtext-sm" type="text" [pKeyFilter]="keyFillter.englishAndNumber"></textarea>
+                    </div>
+                </div>
+                <div class="p-formgrid grid">
+
+                    <div class="field col-12 md:col-6 pb-2">
+                        <label htmlFor="calendar" class="required">Start Date</label>
+                        <p-calendar  [(ngModel)]="project.startdate" [showIcon]="true" inputId="icon" dateFormat="yy-mm-dd"></p-calendar>
+                    </div>
+
+                    <div class="field col-12 md:col-6 pb-2">
+                        <label htmlFor="calendar" >End Date</label>
+                        <p-calendar [(ngModel)]="project.enddate" [showIcon]="true"  inputId="icon" dateFormat="yy-mm-dd"></p-calendar>
+                    </div>
+                </div>
+            </p-panel>
+            <p-panel header="ลายเซ็นของโครงการ">
+                <div class="p-formgrid grid">
+                    <div class="field col-12 md:col-6 pb-2">
+                        <label htmlFor="div_id" class="required">ผู้เสนอโครงการ</label>
+                        <p-dropdown [options]="dropdownTypeItemsUser" optionLabel="name" optionValue="id" [(ngModel)]="project.project_proponent" [filter]="true" filterBy="name" [showClear]="true" placeholder="Please Select">
+                        </p-dropdown>
+                    </div>
+                    <div class="field col-12 md:col-6 pb-2">
+                        <label htmlFor="div_id" class="required">ผู้เห็นชอบโครงการ</label>
+                        <p-dropdown [options]="dropdownTypeItemsUserApprove" optionLabel="name" optionValue="id"  [(ngModel)]="project.project_approver" [filter]="true" filterBy="name" [showClear]="true" placeholder="Please Select">
+                        </p-dropdown>
+                    </div>
+                </div>
+    
+            </p-panel>
+
+            <div class="p-formgrid mr-1 mt-5 grid flex justify-content-end flex-wrap card-container green-container">
+                <p-button (click)="linkBack()" icon="pi pi-times"
+                    styleClass="flex align-items-center justify-content-center" label="Cancel"
+                    styleClass="p-button-text p-button-secondary"></p-button>
+                    <p-button (click)="UpdateProject(1)"
+                    styleClass="p-button-raised  flex align-items-center justify-content-center" icon="pi pi-check"
+                    label="Save" [loading]="loading[1]">
+                </p-button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Search dialog -->
+<p-dialog header="Search Division" [(visible)]="displayResponsiveSearchDivision" [modal]="true"
+    [breakpoints]="{'960px': '75vw'}" [style]="{width: '40vw'}" styleClass="p-fluid" [draggable]="false"
+    [resizable]="false">
+    <ng-template pTemplate="content" ngClass="mb-5">
+
+        <div class="field mb-5">
+            <!--            <div class="field col-12 md:col-6 ">-->
+            <div class="p-inputgroup">
+                <input type="text" pInputText [(ngModel)]="kwDivision" placeholder="Division Name">
+                <button type="button" pButton pRipple label="Search" icon="pi pi-search" 
+                    styleClass="p-button-warn"></button>
+                <!--                </div>-->
+            </div>
+        </div>
+
+
+        <div class="field" *ngFor="let virtualListDivision of listDivision">
+            <div class="flex justify-content-between flex-wrap card-container purple-container">
+                <div class="flex align-items-center justify-content-center">
+                    <div class="field-radiobutton">
+                        <p-radioButton name="divisionName" 
+                            value="{{virtualListDivision.divId}}" [(ngModel)]="divisionId"
+                            inputId="division{{virtualListDivision.divId}}"></p-radioButton>
+                        <label style="font-weight:bold"
+                            for="{{virtualListDivision.divId}}">{{virtualListDivision.divisionName}}</label>
+                    </div>
+                </div>
+                <div class="flex justify-content-between flex-wrap card-container purple-container">
+                    <span
+                        [class]="'text-500 ' + (virtualListDivision.divisionStatus == 'ACTIVE' ? 'text-green-700' : 'text-red-700')">{{virtualListDivision.divisionStatus}}</span>
+                </div>
+            </div>
+            <p-divider></p-divider>
+        </div>
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <p-button (click)="displayResponsiveSearchDivision=false" icon="pi pi-times" styleClass="p-button-sm"
+            label="Cancel" styleClass="p-button-text p-button-secondary"></p-button>
+
+    </ng-template>
+
+</p-dialog>
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+    <ng-template pTemplate="footer">
+        <p-button styleClass="p-button-text p-button-secondary" icon="pi pi-times" label="No" (click)="cd.reject()">
+        </p-button>
+        <p-button icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+    </ng-template>
+
+</p-confirmDialog>
+
+<p-toast></p-toast>

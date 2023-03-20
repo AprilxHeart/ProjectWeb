@@ -1,0 +1,472 @@
+
+<div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4 gap-2">
+                <h4 class="m-0">Create Location</h4>
+            </p-toolbar>
+            <p-panel header="Location" styleClass="mb-4"[toggleable]="true">
+                <ng-template pTemplate="icons">
+                    <p-menu #menu  [model]="items" [popup]="true"></p-menu>
+                </ng-template>
+            <div class="grid formgrid">
+                <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+                    <label htmlFor="locationcode" class="required" style="font-weight: bold">Location Code
+                    </label>
+                    <input pInputText id="locationcode"
+                    name="locationcode"
+                    type="text"
+                    [(ngModel)] = "locationcode"
+                    [ngClass]="{'ng-invalid ng-dirty':locationcodeInvalid}"
+                    >
+                </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label style="font-weight: bold">Id Type</label>
+            <p-dropdown appendTo="body"  optionLabel="lovName"
+            [options]="dropdownIdType"
+            [(ngModel)] = "selectedCreateIdType"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="idNumber" style="font-weight: bold">Id Number</label>
+            <input pInputText id="idNumber"
+                    name="idNumber"
+                    type="text"
+                    [(ngModel)] = "idnumber"
+
+                    >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locNameTh" class="required" style="font-weight: bold">Location Name Th</label>
+            <input pInputText id="locNameTh"
+            name="locNameTh"
+            type="text"
+            [(ngModel)] = "locationNameTh"
+            [ngClass]="{'ng-invalid ng-dirty':locationNameThInvalid}"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locNameEn" style="font-weight: bold">Location Name En</label>
+            <input pInputText id="locNameEn"
+                    name="locNameEn"
+                    type="text"
+                    [(ngModel)] = "locationNameEn"
+                    >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locStatus" class="required" style="font-weight: bold">Location Status</label>
+            <p-dropdown appendTo="body" optionLabel="name"
+            [options]="dropdownStatus" [(ngModel)] = "selectlocationStatus" [(ngModel)] = "statusInvalid"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0">
+            <label htmlFor="regionCode" class="required" style="font-weight: bold">Region Code</label>
+
+                <p-dropdown appendTo="body" optionLabel="lovName"
+                [options]="dropdownRegion"  (onChange)="setRegion()" [(ngModel)] = "selectedCreateRegion" [ngClass]="{'ng-invalid ng-dirty': regionInvalid}"
+                ></p-dropdown>
+
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2" >
+            <label htmlFor="regionNameTh" style="font-weight: bold">Region Name Th
+            </label>
+            <input pInputText id="regionNameTh"
+            name="regionNameTh"
+            type="text"
+            [(ngModel)] = "regionNameTh"
+            [disabled]="true"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="regionNameEn" style="font-weight: bold" >Region Name En
+            </label>
+            <input pInputText id="regionNameEn"
+            name="regionNameEn"
+            type="text"
+            [(ngModel)] = "regionNameEn"
+            [disabled]="true"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="subRegionCode" style="font-weight: bold">SubRegion Code</label>
+            <p-dropdown appendTo="body"  optionLabel="lovName"
+            [options]="dropdownSubRegion" (onChange)="setSubRegion()" [(ngModel)] = "selectedCreateSubRegion"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="subRegionNameTh" >SubRegion Name Th
+            </label>
+            <input pInputText id="subRegionNameTh"
+            name="subRegionNameTh"
+            type="text"
+            [(ngModel)] = "subregionNameTh"
+            [disabled]="true"
+
+
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="subRegionNameEn" style="font-weight: bold">SubRegion Name En
+            </label>
+            <input pInputText id="subRegionNameTh"
+            name="subRegionNameTh"
+            type="text"
+            [(ngModel)] = "subregionNameEn"
+            [disabled]="true"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="distributionCode" style="font-weight: bold">Distribution Code</label>
+            <p-dropdown appendTo="body"   optionLabel="lovName"
+            [options]="dropdownDitribution" (onChange)="setDistribution()" [(ngModel)] = "selectedCreateDitribution"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="distributionName" style="font-weight: bold">Distribution Name
+            </label>
+            <input pInputText id="distributionName"
+            name="distributionName"
+            type="text"
+            [disabled]="true"
+            [(ngModel)] = "distributionName"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="hqFlag" style="font-weight: bold">Hq Flag</label>
+            <p-dropdown appendTo="body" optionLabel="name"
+            [options]="dropdownGq" [(ngModel)] = "selectlocationHgflag"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="chnSalesCode" style="font-weight: bold">Chn Sales Code</label>
+            <p-dropdown appendTo="body"   optionLabel="lovName"
+            [options]="dropdownCHN" (onChange)="setChn()" [(ngModel)] = "selectedCreateCHN"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="chnSalesName" style="font-weight: bold">Chn Sales Name
+            </label>
+            <input pInputText id="chnSalesName"
+            name="chnSalesCode"
+            type="text"
+            [(ngModel)] = "chn"
+            [disabled]="true"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="shopTypeGroupCode" style="font-weight: bold">Shop Type Group Code</label>
+            <p-dropdown appendTo="body" optionLabel="lovName"
+            [options]="dropdownShopTypeGroup" (onChange)="setShopTypeGrop()" [(ngModel)] = "selectedCreateShopTypeGroup"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="shopTypeGroupName" style="font-weight: bold">Shop Type Group Name
+            </label>
+            <input pInputText id="shopTypeGroupName"
+            name="chnSalesCode"
+            type="text"
+            [(ngModel)] = "shoptypegroup"
+            [disabled]="true"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="shopTypeCode" style="font-weight: bold">Shop Type Code</label>
+            <p-dropdown appendTo="body"  optionLabel="lovName"
+            [options]="dropdownShopType" (onChange)="setShopType()" [(ngModel)] = "selectedCreateShopType"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="shopTypeName" style="font-weight: bold">Shop Type Name
+            </label>
+            <input pInputText id="shopTypeName"
+            name="chnSalesCode"
+            type="text"
+            [(ngModel)] = "shoptype"
+            [disabled]="true"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="channelType" style="font-weight: bold">Channel Type</label>
+            <p-dropdown appendTo="body" optionLabel="lovName"
+            [options]="dropdownChannelType" [(ngModel)] = "selectedCreateChannelType"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="businessName" style="font-weight: bold">Business Name</label>
+            <input pInputText id="businessName"
+            name="businessName" [(ngModel)] = "businessname"
+            type="text"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="publicNameTh" style="font-weight: bold">Public Name Th
+            </label>
+            <input pInputText id="publicNameTh"
+            name="publicNameTh"
+            type="text"
+            [(ngModel)] = "publicnameTh"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="publicNameEn" style="font-weight: bold">Public Name En
+            </label>
+            <input pInputText id="publicNameEn"
+            name="publicNameEn"
+            type="text"
+            [(ngModel)] = "publicnameEn"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="companyName" style="font-weight: bold">Company Name
+            </label>
+            <input pInputText id="companyName"
+            name="companyName"
+            type="text"
+            [(ngModel)] = "companyName"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Pay Channel</label>
+            <p-dropdown appendTo="body" optionLabel="lovName"
+            [options]="dropdownPayChannel"  [(ngModel)] = "selectedCreatePayChannel"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="effectiveStartDate" style="font-weight: bold">Effective Start Date</label>
+            <p-calendar  [showIcon]="true" inputId="icon"  [(ngModel)] = "effectiveStartDate"
+            ></p-calendar>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="effectiveEndDate" style="font-weight: bold">Effective End Date</label>
+            <p-calendar  [showIcon]="true" inputId="icon"  [(ngModel)] = "effectiveEndDate"
+            ></p-calendar>
+        </div>
+    </div>
+</p-panel>
+<p-panel header="Address" styleClass="mb-4"[toggleable]="true">
+    <ng-template pTemplate="icons">
+        <p-menu #menu  [model]="items" [popup]="true"></p-menu>
+    </ng-template>
+    <div class="grid formgrid">
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Adress Type</label>
+            <p-dropdown appendTo="body" optionLabel="lovName"
+            [options]="dropdownLocationAddressType"  [(ngModel)] = "selectLocationAddressType"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationaddressnameTh" style="font-weight: bold">Location Adress Name Th
+            </label>
+            <input pInputText id="locationaddressnameTh"
+            name="locationaddressnameTh"
+            type="text"
+            [(ngModel)] = "locationaddressnameTh"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationaddressnameEn" style="font-weight: bold">Location Adress Name En
+            </label>
+            <input pInputText id="locationaddressnameEn"
+            name="locationaddressnameEn"
+            type="text"
+            [(ngModel)] = "locationaddressnameEn"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationSoiTh" style="font-weight: bold">Location Soi Th
+            </label>
+            <input pInputText id="locationSoiTh"
+            name="locationSoiTh"
+            type="text"
+            [(ngModel)] = "locationSoiTh"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationSoiEn" style="font-weight: bold">Location Soi En
+            </label>
+            <input pInputText id="locationSoiEn"
+            name="locationSoiEn"
+            type="text"
+            [(ngModel)] = "locationSoiEn"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationMooTh" style="font-weight: bold">Location Moo Th
+            </label>
+            <input pInputText id="locationMooTh"
+            name="locationMooTh"
+            type="text"
+            [(ngModel)] = "locationMooTh"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationMoobanTh" style="font-weight: bold">Location Mooban Th
+            </label>
+            <input pInputText id="locationMoobanTh"
+            name="locationMoobanTh"
+            type="text"
+            [(ngModel)] = "locationMoobanTh"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationMoobanEn" style="font-weight: bold">Location Mooban En
+            </label>
+            <input pInputText id="locationMoobanEn"
+            name="locationMoobanEn"
+            type="text"
+            [(ngModel)] = "locationMoobanEn"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locatiobuildingnameTh" style="font-weight: bold">Location Buiding Name Th
+            </label>
+            <input pInputText id="locatiobuildingnameTh"
+            name="locatiobuildingnameTh"
+            type="text"
+            [(ngModel)] = "locationbuildingnameTh"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationbuildingnameEn" style="font-weight: bold">Location Buiding Name En
+            </label>
+            <input pInputText id="locationbuildingnameEn"
+            name="locationbuildingnameEn"
+            type="text"
+            [(ngModel)] = "locationbuildingnameEn"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationStreetTh" style="font-weight: bold">Location Street Th
+            </label>
+            <input pInputText id="locationStreetTh"
+            name="locationStreetTh"
+            type="text"
+            [(ngModel)] = "locationStreetTh"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationStreetEn" style="font-weight: bold">Location Street En
+            </label>
+            <input pInputText id="locationStreetEn"
+            name="locationStreetEn"
+            type="text"
+            [(ngModel)] = "locationStreetEn"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationFoolrTh" style="font-weight: bold">Location Foolr Th
+            </label>
+            <input pInputText id="locationFoolrTh"
+            name="locationFoolrTh"
+            type="text"
+            [(ngModel)] = "locationFoolrTh"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationFoolrEn" style="font-weight: bold">Location Foolr En
+            </label>
+            <input pInputText id="locationFoolrEn"
+            name="locationFoolrEn"
+            type="text"
+            [(ngModel)] = "locationFoolrEn"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationRoomunitTh" style="font-weight: bold">Location Room Unit Th
+            </label>
+            <input pInputText id="locationRoomunitTh"
+            name="locationRoomunitTh"
+            type="text"
+            [(ngModel)] = "locationRoomunitTh"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="locationRoomunitEn" style="font-weight: bold">Location Room Unit En
+            </label>
+            <input pInputText id="locationRoomunitEn"
+            name="locationRoomunitEn"
+            type="text"
+            [(ngModel)] = "locationRoomunitEn"
+            >
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Provice Th</label>
+            <p-dropdown appendTo="body" optionLabel="province_name_th"
+            [options]="dropdownProvince"  [(ngModel)] = "selectProvice" (onChange)="setAmphur(selectProvice)"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Provice En</label>
+            <p-dropdown appendTo="body" optionLabel="province_name_en"
+            [options]="dropdownProvinceEn"  [(ngModel)] = "selectProviceEn"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Amphur Th</label>
+            <p-dropdown appendTo="body" optionLabel="amPhurTh"
+            [options]="dropdownAmphur"  [(ngModel)] = "selectAmphur" (onChange)="setTumbol(selectAmphur)"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Amphur En</label>
+            <p-dropdown appendTo="body" optionLabel="amPhurEn"
+            [options]="dropdownAmphurEn"  [(ngModel)] = "selectAmphurEn"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Tumbol Th</label>
+            <p-dropdown appendTo="body" optionLabel="tumBolTh"
+            [options]="dropdownTumbol"  [(ngModel)] = "selectTumbol" (onChange)="setTumbolEn()"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Tumbol En</label>
+            <p-dropdown appendTo="body" optionLabel="tumBolEn"
+            [options]="dropdownTumbolEn"  [(ngModel)] = "selectTumbolEn"
+            ></p-dropdown>
+        </div>
+
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Country Th</label>
+            <p-dropdown appendTo="body" optionLabel="lovName"
+            [options]="dropdownLocationContry"  [(ngModel)] = "selectLocationContry"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Country En</label>
+            <p-dropdown appendTo="body" optionLabel="lovDes1"
+            [options]="dropdownLocationContry"  [(ngModel)] = "selectLocationContryEn"
+            ></p-dropdown>
+        </div>
+        <div class="col-12 mb-2 lg:col-4 lg:mb-0 py-2">
+            <label htmlFor="payChannel" style="font-weight: bold">Location Postal Th</label>
+            <p-dropdown appendTo="body" optionLabel="zipCode"
+            [options]="dropdownZipCode"  [(ngModel)] = "selectZipCode"
+            ></p-dropdown>
+        </div>
+    </div>
+</p-panel>
+<div class="p-formgrid mr-1 mt-5 grid flex justify-content-end flex-wrap card-container green-container">
+    <p-button (click)="linkBack()" icon="pi pi-times"
+              styleClass="flex align-items-center justify-content-center"
+              label="Cancel" styleClass="p-button-text p-button-secondary"></p-button>
+    <p-button (click)="createLocation()"
+              styleClass="p-button-raised  flex align-items-center justify-content-center"
+              icon="pi pi-check"
+              label="Create" >
+    </p-button>
+</div>
+
+<p-confirmDialog #cd [style]="{width: '26vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+
+	<ng-template pTemplate="footer">
+		<p-button  styleClass="p-button-text p-button-secondary"  icon="pi pi-times" label="No" (click)="cd.reject()"></p-button>
+		<p-button    icon="pi pi-check" label="Yes" (click)="cd.accept()"></p-button>
+	</ng-template>
+
+</p-confirmDialog>
+
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>

@@ -1,0 +1,165 @@
+<div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+        <div class="card">
+            <p-toolbar styleClass="mb-4 gap-2">
+                <h4 class="m-0">Manage Location</h4>
+            </p-toolbar>
+            <p-table
+                #dt
+                [value]="location"
+                [rows]="10"
+                [paginator]="true"
+                responsiveLayout="scroll"
+                [globalFilterFields]="[]"
+                responsiveLayout="scroll"
+                [(selection)]="location"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true"
+            >
+
+            <ng-template pTemplate="caption">
+                <div
+                class="flex align-items-center justify-content-between"
+                >
+                    <span  class="p-input-icon-left" style="width:auto">
+                        <i class="pi pi-search"></i>
+                        <input
+                            pInputText
+                            type="text"
+                            (input)="
+                                dt.filterGlobal(
+                                    $any($event.target).value,
+                                    'contains'
+                                )
+                            "
+                            placeholder="Search DLOC_CODE,LOC_NAME_TH,LOC_NAME_EN,LOC_STATUS,REGION,SUB_REGION,CHANAL_TYPE"
+                        />
+                    </span>
+                    <button
+                        pButton
+                        pRipple
+                        label="Create"
+                        icon="pi pi-plus"
+                        class="p-button-primary mr-2"
+                        (click)="linkcreateLocation()"
+                    ></button>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="locCode">
+                        Location Code
+                        <p-sortIcon field="locCode"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="locNameTh">
+                        Name (TH)
+                        <p-sortIcon field="locNameTh"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="locNameEn">
+                        Name (EN)
+                        <p-sortIcon field="locNameEn"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="locStatus">
+                        Status
+                        <p-sortIcon field="locStatus"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="regionCode">
+                        Region
+                        <p-sortIcon field="regionCode"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="subRegionCode">
+                        Subregion
+                        <p-sortIcon field="subRegionCode"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="effectiveStartDate">
+                        Efftive StartDate
+                        <p-sortIcon field="effectiveStartDate"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="effectiveEndDate">
+                        Efftive EndDate
+                        <p-sortIcon field="effectiveEndDate"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="createdBy">
+                        Created
+                        <p-sortIcon field="createdBy"></p-sortIcon>
+                    </th>
+
+                    <th pSortableColumn="updatedBy">
+                        Update
+                        <p-sortIcon field="updatedBy"></p-sortIcon>
+                    </th>
+
+                    <th style="width: 20%;">
+
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-location>
+                <tr>
+
+                    <td style="min-width: auto;" >
+                    <a  [routerLink]="" (click)="linkviewLocation(location)" >
+                        {{location.locCode || ''}}
+                    </a>
+                    </td>
+                    <td style="min-width: auto;">
+                        {{location.locNameTh || ''}}
+                    </td>
+                    <td style="min-width: auto;">
+                        {{location.locNameEn || ''}}
+                    </td>
+                    <td style="min-width: auto;">
+                        <span [class]="'product-badge status-' + (location.locStatus == 'ACTIVE' ? 'instock' : 'outofstock')">
+                        {{location.locStatus || ''}}</span>
+                    </td>
+                    <td style="min-width: auto;">
+                        {{location.regionCode || ''}}
+                    </td>
+                    <td style="min-width: auto;">
+                        {{location.subRegionCode || ''}}
+                    </td>
+                    <td style="min-width: auto;">
+                        {{location.effectiveStartDate || ''}}
+                    </td>
+                    <td style="min-width: auto;">
+                        {{location.effectiveEndDate || ''}}
+                    </td>
+                    <td style="min-width: auto;">
+                        <i class="pi pi-calendar"></i>
+                        {{location.createdDate || ''}}
+                        <br>
+                        <i class="pi pi-user-edit"></i>
+                        {{location.createdBy || ''}}
+                    </td>
+
+                    <td style="min-width: auto;">
+                        <i class="pi pi-calendar"></i>
+                        {{location.updatedDate || ''}}
+                        <br>
+                        <i class="pi pi-user-edit"></i>
+                        {{location.updatedby || ''}}
+                    </td>
+
+                    <td style="min-width: auto;">
+
+                            <div class="px-2">
+                                <a  pButton pRipple icon="pi pi-pencil"
+                            class="p-button-sm" title="Edit" (click)="linkupdateLocation(location)"></a>
+                            </div>
+
+                    </td>
+
+                    </tr>
+            </ng-template>
+        </p-table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
