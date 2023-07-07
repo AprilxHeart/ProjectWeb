@@ -54,6 +54,16 @@ export class ProjectService {
     return this.http.post(`${this.baseUrlReq}/find-myproject`, body,this.util.createAuthorizationHeader());
 
   }
+
+  approveprojectfullname(body: any) {
+    
+    console.log('--approveprojectfullname Service--');
+    console.log(body);
+    console.log(`${this.baseUrlReq}/find-approveprojectfullname`);
+    return this.http.post(`${this.baseUrlReq}/find-approveprojectfullname`, body,this.util.createAuthorizationHeader());
+
+  }
+
   findapproveproject(body: any) {
     
     console.log('--findapproveproject Service--');
@@ -80,6 +90,57 @@ export class ProjectService {
 
   }
 
+  /* ------------------------------ Count -----------------------------------------------------*/
 
+  CountProejectApprove(body: any) {
+
+    console.log('--CountProejectApprove Service--');
+    console.log(body);
+    console.log(`${this.baseUrlReq}/CountProejectApprove`);
+    return this.http.post(`${this.baseUrlReq}/CountProejectApprove`, body,this.util.createAuthorizationHeader());
+
+  }
+  CountMyProject(body: any) {
+
+    console.log('--CountMyProject Service--');
+    console.log(body);
+    console.log(`${this.baseUrlReq}/CountMyProject`);
+    return this.http.post(`${this.baseUrlReq}/CountMyProject`, body,this.util.createAuthorizationHeader());
+
+  }
+  CountWaitApproveProject(body: any) {
+
+    console.log('--CountWaitApproveProject Service--');
+    console.log(body);
+    console.log(`${this.baseUrlReq}/CountWaitApproveProject`);
+    return this.http.post(`${this.baseUrlReq}/CountWaitApproveProject`, body,this.util.createAuthorizationHeader());
+
+  }
+  CountPeddingProject(body: any) {
+
+    console.log('--CountPeddingProject Service--');
+    console.log(body);
+    console.log(`${this.baseUrlReq}/CountPeddingProject`);
+    return this.http.post(`${this.baseUrlReq}/CountPeddingProject`, body,this.util.createAuthorizationHeader());
+
+  }
+  CountSuccessProject(body: any) {
+
+    console.log('--CountSuccessProject Service--');
+    console.log(body);
+    console.log(`${this.baseUrlReq}/CountSuccessProject`);
+    return this.http.post(`${this.baseUrlReq}/CountSuccessProject`, body,this.util.createAuthorizationHeader());
+
+  }
+  CountTodoProject(body: any) {
+
+    console.log('--CountTodoProject Service--');
+    console.log(body);
+    console.log(`${this.baseUrlReq}/CountTodoProject`);
+    return this.http.post(`${this.baseUrlReq}/CountTodoProject`, body,this.util.createAuthorizationHeader());
+
+  }
 
 }
+
+

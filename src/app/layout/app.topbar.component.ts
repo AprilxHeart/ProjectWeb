@@ -61,7 +61,8 @@ export class AppTopBarComponent  {
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
                 const id_token_hint = localStorage.getItem('samlcode');
-                window.location.href='https://test-ids.ais.co.th/oidc/logout?id_token_hint='+id_token_hint+'&post_logout_redirect_uri=' + environment.LOGIN_PAGE;
+                //window.location.href='https://test-ids.ais.co.th/oidc/logout?id_token_hint='+id_token_hint+'&post_logout_redirect_uri=' + environment.LOGIN_PAGE;
+                window.location.href='https://localhost:4200/auth/login';
                 localStorage.removeItem(SESSION.SESSION_ID);
                 localStorage.removeItem('samlcode');
                 //this.router.navigate(['/auth/login']);

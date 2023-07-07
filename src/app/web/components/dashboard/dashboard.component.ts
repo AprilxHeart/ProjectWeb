@@ -4,11 +4,38 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-
+import { Project } from 'src/app/web/api/Project';
+import { ProjectService } from "../../service/project.service";
+import { SESSION, KEYFILLTER } from "../../utill/constants";
+import jwt_decode from "jwt-decode";
+import { Dropdown } from 'src/app/web/api/Dropdown';
 @Component({
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    Myindex !:number;
+    CountNumber !:number;
+    CountNumber2 !:number;
+
+    CountIntProejectApprove !:number;
+
+    CountIntMyProject !:number;
+
+    CountIntWaitApproveProject !:number;
+
+    CountIntPeddingProject !:number;
+
+    CountIntSuccessProject!:number;
+
+    CountIntTodoProject !:number;
+
+    listProject:Project[] = [];
+
+    listProjectApprove:Project[] = [];
+
+    Count: Dropdown[] = [];
+
+    Count2: Dropdown[] = [];
 
     items!: MenuItem[];
 
@@ -20,7 +47,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     subscription!: Subscription;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
+    constructor(
+        private productService: ProductService, 
+        private projectService: ProjectService,
+        public layoutService: LayoutService) {
         this.subscription = this.layoutService.configUpdate$.subscribe(() => {
             this.initChart();
         });
@@ -29,7 +59,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
-
+        this.getCountProject();
+        this.getProjectList();
+        this.getProjectListApprove();
         this.items = [
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
@@ -95,9 +127,132 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
     }
 
+    getCountProject() {
+        let token = JSON.stringify(localStorage.getItem(SESSION.SESSION_ID));
+        token = JSON.parse(token);
+        let tokendecode = jwt_decode<any>(token);
+        console.log(token);
+        let body = {
+
+            principalNAME: tokendecode.sub,
+            token: token,
+        };
+
+        this.projectService
+            .CountProejectApprove(body)
+            .toPromise()
+            .then((res: any) => {
+                console.log('--CountProejectApprove--');
+                    this.CountIntProejectApprove = res.resultData ;
+                    console.log(this.CountIntProejectApprove);
+            }
+            
+            )
+            this.projectService
+            .CountMyProject(body)
+            .toPromise()
+            .then((res: any) => {
+                console.log('--CountMyProject--');
+                    this.CountIntMyProject = res.resultData ;
+            }
+            
+            )
+
+            this.projectService
+            .CountWaitApproveProject(body)
+            .toPromise()
+            .then((res: any) => {
+                console.log('--CountWaitApproveProject--');
+                    this.CountIntWaitApproveProject = res.resultData ;
+
+            }
+            
+            )
+            this.projectService
+            .CountMyProject(body)
+            .toPromise()
+            .then((res: any) => {
+                console.log('--CountMyProject--');
+                    this.CountIntPeddingProject = res.resultData ;
+            }
+            
+            )
+
+            this.projectService
+            .CountSuccessProject(body)
+            .toPromise()
+            .then((res: any) => {
+                console.log('--CountSuccessProject--');
+                    this.CountIntSuccessProject = res.resultData ;
+            }
+            
+            )
+            this.projectService
+            .CountTodoProject(body)
+            .toPromise()
+            .then((res: any) => {
+                console.log('--CountTodoProject--');
+                    this.CountIntTodoProject = res.resultData ;
+            }
+            
+            )
+
+
+            .catch((err) => {});
+
+    }
+
+    getProjectList() {
+        let token = JSON.stringify(
+          localStorage.getItem(SESSION.SESSION_ID)
+      );
+      token = JSON.parse(token);
+      let tokendecode = jwt_decode<any>(token);
+        this.projectService.findmyproject({ principalNAME: tokendecode.sub }).toPromise().then((res: any) => {
+            console.log(res.resultData);
+            this.listProject = res.resultData;
+            console.log('this.listProject');
+            console.log(this.listProject);
+        }).catch((err) => {
+            console.log(err);
+        });
+    
+    }
+
+    getProjectListApprove() {
+        let token = JSON.stringify(
+          localStorage.getItem(SESSION.SESSION_ID)
+      );
+      token = JSON.parse(token);
+      let tokendecode = jwt_decode<any>(token);
+        this.projectService.approveprojectfullname({ principalNAME: tokendecode.sub }).toPromise().then((res: any) => {
+            console.log(res.resultData);
+            this.listProjectApprove = res.resultData;
+            console.log('this.listProjectApprove');
+            console.log(this.listProjectApprove);
+        }).catch((err) => {
+            console.log(err);
+        });
+    
+    }
+
+
     ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
     }
 }
+
+
+/* CountProejectApprove
+
+CountMyProject
+
+CountWaitApproveProject
+
+CountPeddingProject
+
+CountSuccessProject
+
+CountTodoProject */

@@ -36,4 +36,6 @@ created_by:string  ;
 updated_date:string  ;
 updated_by:string  ;
 period:string  ;
+first_name:string  ;
+last_name:string  ;
 }

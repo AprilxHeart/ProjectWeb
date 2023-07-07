@@ -11,6 +11,7 @@ import { EventService } from './web/service/event.service';
 import { IconService } from './web/service/icon.service';
 import { NodeService } from './web/service/node.service';
 import { PhotoService } from './web/service/photo.service';
+import { DialogModule } from 'primeng/dialog';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 
