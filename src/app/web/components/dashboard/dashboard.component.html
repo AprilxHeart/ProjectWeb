@@ -10,8 +10,8 @@
                         <i class="pi pi-book text-blue-500 text-xl"></i>
                     </div>
                 </div>
-                <span class="text-green-500 font-medium">24 new </span>
-                <span class="text-500">since last visit</span>
+                <!-- <span class="text-green-500 font-medium">24 new </span>
+                <span class="text-500">since last visit</span> -->
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
@@ -25,8 +25,8 @@
                         <i class="pi pi-bookmark text-orange-500 text-xl"></i>
                     </div>
                 </div>
-                <span class="text-green-500 font-medium">%52+ </span>
-                <span class="text-500">since last week</span>
+                <!-- <span class="text-green-500 font-medium">%52+ </span>
+                <span class="text-500">since last week</span> -->
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
@@ -40,8 +40,8 @@
                         <i class="pi pi-inbox text-cyan-500 text-xl"></i>
                     </div>
                 </div>
-                <span class="text-green-500 font-medium">520  </span>
-                <span class="text-500">newly registered</span>
+                <!-- <span class="text-green-500 font-medium">520  </span>
+                <span class="text-500">newly registered</span> -->
             </div>
         </div>
         <div class="col-12 lg:col-6 xl:col-3">
@@ -55,8 +55,8 @@
                         <i class="pi pi-comment text-purple-500 text-xl"></i>
                     </div>
                 </div>
-                <span class="text-green-500 font-medium">85 </span>
-                <span class="text-500">responded</span>
+                <!-- <span class="text-green-500 font-medium">85 </span>
+                <span class="text-500">responded</span> -->
             </div>
         </div>
 
@@ -66,16 +66,21 @@
                 <p-table [value]="listProject" [paginator]="true" [rows]="5" responsiveLayout="scroll">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="name">Project Name <p-sortIcon field="name"></p-sortIcon></th>
-                            <th pSortableColumn="price">Status <p-sortIcon field="price"></p-sortIcon></th>
-                            <th>Year</th>
+                            <th pSortableColumn="project_name">Project Name <p-sortIcon field="project_name"></p-sortIcon></th>
+                            <th pSortableColumn="fiscal_year">Year<p-sortIcon field="fiscal_year"></p-sortIcon></th>
+                            <th pSortableColumn="project_status">Status <p-sortIcon field="project_status"></p-sortIcon></th>
+
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-listProject>
                         <tr>
                             <td style="width: 35%; min-width: 7rem;">{{this.listProject.project_name}}</td>
-                            <td style="width: 35%; min-width: 8rem;">{{this.listProject.project_status }}</td>
                             <td style="width: 35%; min-width: 8rem;">{{this.listProject.fiscal_year }}</td>
+                            <td>
+                                <span
+                                    [class]="'product-badge status-' + (listProject.project_status == 'SUCCESS' ? 'instock' : 'lowstock')">{{listProject.project_status}}</span>
+                            </td>
+
                         </tr>
                     </ng-template>
                 </p-table>
@@ -90,16 +95,19 @@
                 <p-table [value]="listProjectApprove" [paginator]="true" [rows]="5" responsiveLayout="scroll">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="name">Project Name <p-sortIcon field="name"></p-sortIcon></th>
-                            <th pSortableColumn="price">Full name <p-sortIcon field="price"></p-sortIcon></th>
-                            <th>Status</th>
+                            <th pSortableColumn="project_name">Project Name <p-sortIcon field="project_name"></p-sortIcon></th>
+                            <th pSortableColumn="first_name">Full name <p-sortIcon field="first_name"></p-sortIcon></th>
+                            <th pSortableColumn="project_status">Status <p-sortIcon field="project_status"></p-sortIcon></th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-listProjectApprove>
                         <tr>
                             <td style="width: 35%; min-width: 7rem;">{{this.listProjectApprove.project_name}}</td>
                             <td style="width: 35%; min-width: 8rem;">{{this.listProjectApprove.first_name }} {{this.listProjectApprove.last_name }}</td>
-                            <td style="width: 35%; min-width: 8rem;">{{this.listProjectApprove.project_status }}</td>
+                            <td>
+                                <span
+                                    [class]="'product-badge status-' + (this.listProjectApprove.project_status == 'SUCCESS' ? 'instock' : 'lowstock')">{{this.listProjectApprove.project_status}}</span>
+                            </td>
                         </tr>
                     </ng-template>
                 </p-table>

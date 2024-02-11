@@ -8,7 +8,8 @@
         "start-dev": "ng serve --ssl false --proxy-config proxy-dev.conf.json",
         "build": "node --max_old_space_size=8192 --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng build --source-map=false --configuration production",
         "watch": "ng build --watch --configuration development",
-        "test": "ng test"
+        "test": "ng test",
+        "buildtest": "ng build --output-path=dist"
     },
     "private": true,
     "dependencies": {

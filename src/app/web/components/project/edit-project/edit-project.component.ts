@@ -618,7 +618,7 @@ export class EditProjectComponent implements OnInit {
             message: 'Are you sure that you want to perform this action?',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.router.navigate(['/transuser']);
+                this.router.navigate(['/project']);
             }
         });
     }

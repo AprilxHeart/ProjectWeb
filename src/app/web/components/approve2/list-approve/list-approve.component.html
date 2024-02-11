@@ -98,7 +98,7 @@
 					</td>
 					<td>
 						<span
-							[class]="'product-badge status-' + (project.project_status == 'Success' ? 'instock' : 'lowstock')">{{project.project_status}}</span>
+							[class]="'product-badge status-' + (project.project_status == 'SUCCESS' ? 'instock' : 'lowstock')">{{project.project_status}}</span>
 					</td>
 				</tr>
 			</ng-template>
@@ -174,7 +174,7 @@
 											<div class="field col-12 md:col-4 pb-2">
 												<label class="label-expansion">สถานะ</label>
 												<p class="pl-1"><span
-													[class]="'product-badge status-' + (projectex.project_status == 'ACTIVE' ? 'instock' : 'lowstock')">{{projectex.project_status}}</span></p>
+													[class]="'product-badge status-' + (projectex.project_status == 'SUCCESS' ? 'instock' : 'lowstock')">{{projectex.project_status}}</span></p>
 											</div>
 										   
 											
@@ -414,7 +414,7 @@
 
 		<div class="field">
 			<label htmlFor="div_id" class="required">Approve Status</label>
-			<p-dropdown [options]="dropdownTypeItemsStatus" optionLabel="name"  [(ngModel)]="this.selectedEditStatus" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select">
+			<p-dropdown [options]="dropdownTypeItemsStatus" optionLabel="name" optionValue="name"  [(ngModel)]="selectedEditStatus"  placeholder="Select">
 			</p-dropdown>
 		</div>
 

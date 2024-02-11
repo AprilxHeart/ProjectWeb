@@ -1,7 +1,8 @@
 export const environment = {
   production: true,
   apiBaseURL : '/api/v1',
-  AUTH_SERVER : "http://localhost:3300",
+  AUTH_SERVER : "http://localhost:3000",
+  //AUTH_SERVER : "http://localhost:3300",
   //AUTH_SERVER : "http://10.138.39.235:3000",
   TOKEN : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InZ1dHRoaXBwIiwiZmlyc3ROYW1lIjoiVnV0dGhpcG9uZyIsImxhc3ROYW1lIjoiUGlwYXR0YW5hc2FrdWxraXQiLCJpYXQiOjE2NjY2OTM2MjIsImV4cCI6MTY2NjY5NDUyMn0.UK5j3H2A-HTX7aBR2VTQ44GB46dAjd1XLRxvDlNWET4',
   IDS_SAML_APP_CODE : 'VO',

@@ -88,7 +88,7 @@
                         </td>
                         <td>
                             <span
-                                [class]="'product-badge status-' + (project.project_status == 'Success' ? 'instock' : 'lowstock')">{{project.project_status}}</span>
+                                [class]="'product-badge status-' + (project.project_status == 'SUCCESS' ? 'instock' : 'lowstock')">{{project.project_status}}</span>
                         </td>
                     </tr>
                 </ng-template>
@@ -162,7 +162,7 @@
                                                 <div class="field col-12 md:col-4 pb-2">
                                                     <label class="label-expansion">สถานะ</label>
                                                     <p class="pl-1"><span
-                                                        [class]="'product-badge status-' + (projectex.project_status == 'ACTIVE' ? 'instock' : 'lowstock')">{{projectex.project_status}}</span></p>
+                                                        [class]="'product-badge status-' + (projectex.project_status == 'SUCCESS' ? 'instock' : 'lowstock')">{{projectex.project_status}}</span></p>
                                                 </div>
                                                
                                                 
