@@ -10,5 +10,5 @@ RUN npm run buildtest
 FROM nginx:1.13.12-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
-EXPOSE 80
+EXPOSE 4200
 CMD ["nginx", "-g", "daemon off;"]

@@ -6,6 +6,7 @@ import { Utility } from 'src/app/web/utill/utility';
 import { SESSION } from 'src/app/web/utill/constants';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ProfilePopupComponent } from './../../../src/app/web/components/profilePopup/profilePopup.component';
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html',
@@ -20,6 +21,8 @@ export class AppTopBarComponent  {
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
 
     @ViewChild('topbarmenu') menu!: ElementRef;
+
+    @ViewChild(ProfilePopupComponent) profileComponent!: ProfilePopupComponent;
 
     constructor(
         public layoutService: LayoutService,
@@ -44,7 +47,7 @@ export class AppTopBarComponent  {
         
         this.items = [
             {label: 'Profile', icon: 'pi pi-user', command: () => {
-                //this.update();
+                this.showProfile();
             }},
             {separator:true},
             {label: 'Logout', icon: 'pi pi-sign-out',  command: () => {
@@ -52,6 +55,14 @@ export class AppTopBarComponent  {
             }}
         ];
 
+    }
+
+    showProfile() {
+        if (this.profileComponent) {
+            this.profileComponent.showDialog();
+        } else {
+            console.error('ProfilePopupComponent is not available');
+        }
     }
 
     logout(){

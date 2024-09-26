@@ -4,9 +4,8 @@
 
 ### Run Project 
 
-####  1.  clone project
-#### 2.  install  node js   version 18
-link https://nodejs.org/en/
-#### 3.  Open Project  > run  "npm i"    
-#### 4. start angular  > run "npm start"
-#### 5. start node > run  "node app.js"
+#### 1.  lone Project: Clone the project.
+#### 2.  iInstall Node.js (Version 18): Install Node.js from this link https://nodejs.org/en/
+#### 3. Open Project and Install Dependencies: Navigate to your project directory and run npm i in the terminal. 
+#### 4. Start Angular: Run npm start to start the Angular app.
+#### 5. Start Node: Execute node app.js to start the Node server.
