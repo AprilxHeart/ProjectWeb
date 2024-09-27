@@ -1,48 +1,15 @@
-<p-dialog [(visible)]="displayResponsiveCreateProfile" modal="true" [responsive]="true" [width]="600" [maximizable]="true" [baseZIndex]="10000">
-  <p-header>
-    Create User Profile
-  </p-header>
-  <div class="p-fluid">
-    <div class="p-field">
-      <label for="userName">Username</label>
-      <input id="userName" [(ngModel)]="userName" [ngClass]="{'invalid': userNameInvalid}" />
+<p-dialog header="User Profile" [(visible)]="displayResponsiveProfileDetails" [modal]="true" [closable]="false" [styleClass]="'profile-dialog'">
+  <div class="profile-content">
+    <div class="profile-header">
+      <h2>User Profile</h2>
     </div>
-    <div class="p-field">
-      <label for="firstname">First Name</label>
-      <input id="firstname" [(ngModel)]="firstname" />
+    <div class="profile-details">
+      <p class="profile-name">{{ userProfile.firstName }} {{ userProfile.lastName }}</p>
+      <p class="profile-email">{{ userProfile.email }}</p>
+      <p class="profile-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     </div>
-    <div class="p-field">
-      <label for="lastname">Last Name</label>
-      <input id="lastname" [(ngModel)]="lastname" />
-    </div>
-    <div class="p-field">
-      <label for="email">Email</label>
-      <input id="email" [(ngModel)]="email" />
-    </div>
-    <div class="p-field">
-      <label for="mobile">Mobile</label>
-      <input id="mobile" [(ngModel)]="mobile" />
-    </div>
-    <div class="p-field">
-      <label for="startDate">Start Date</label>
-      <input type="date" id="startDate" [(ngModel)]="startDate" />
-    </div>
-    <div class="p-field">
-      <label for="endDate">End Date</label>
-      <input type="date" id="endDate" [(ngModel)]="endDate" />
-    </div>
-    <div class="p-field">
-      <label for="profileType">Profile Type</label>
-      <p-dropdown [(ngModel)]="selectedCreateProfileTypeMstLov" [options]="profileTypeOptions" optionLabel="name" placeholder="Select Profile Type"></p-dropdown>
-    </div>
-    <div class="p-field">
-      <label for="profileStatus">Status</label>
-      <p-radioButton name="status" value="ACTIVE" [(ngModel)]="profileStatusRadio" label="Active"></p-radioButton>
-      <p-radioButton name="status" value="INACTIVE" [(ngModel)]="profileStatusRadio" label="Inactive"></p-radioButton>
-    </div>
+    <p-footer>
+      <button class="btn-close" (click)="closeDialog()">Close</button>
+    </p-footer>
   </div>
-  <p-footer>
-    <button type="button" (click)="saveProfile()">Save</button>
-    <button type="button" (click)="resetForm()">Reset</button>
-  </p-footer>
 </p-dialog>

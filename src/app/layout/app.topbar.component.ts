@@ -6,14 +6,15 @@ import { Utility } from 'src/app/web/utill/utility';
 import { SESSION } from 'src/app/web/utill/constants';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { ProfilePopupComponent } from './../../../src/app/web/components/profilePopup/profilePopup.component';
+import { ProfilePopupComponent } from '../web/components/shared/component/profile-popup/profile-popup.component';
+ProfilePopupComponent
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html',
     providers: [ConfirmationService]
 })
 export class AppTopBarComponent  {
-
+    userProfile :any = [];
     items!: MenuItem[];
 
     @ViewChild('menubutton') menuButton!: ElementRef;
@@ -43,6 +44,9 @@ export class AppTopBarComponent  {
 
         if(!this.util.isEmpty(token)){
             this.userFullName = tokendecode.firstName + ' ' + tokendecode.lastName;
+            this.userProfile.firstName = tokendecode.firstName
+            this.userProfile.lastName = tokendecode.lastName
+            this.userProfile.email = tokendecode.email
         }
         
         this.items = [

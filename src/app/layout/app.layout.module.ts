@@ -20,7 +20,7 @@ import { AppLayoutComponent } from "./app.layout.component";
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessagesModule } from 'primeng/messages';
-
+import { SharedModule } from './../web/components/shared/project-shared.module';
 @NgModule({
     declarations: [
         AppMenuitemComponent,
@@ -46,6 +46,7 @@ import { MessagesModule } from 'primeng/messages';
         SplitButtonModule,
         ConfirmDialogModule,
         MessagesModule,
+        SharedModule
     ],
     exports: [AppLayoutComponent]
 })

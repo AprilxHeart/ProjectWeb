@@ -13,17 +13,18 @@ import { NodeService } from './web/service/node.service';
 import { PhotoService } from './web/service/photo.service';
 import { DialogModule } from 'primeng/dialog';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
-import { ProfilePopupComponent } from './web/components/profilePopup/profilePopup.component';
-
+import { SharedModule } from './web/components/shared/project-shared.module';
 
 @NgModule({
     declarations: [
-        AppComponent, NotfoundComponent,ProfilePopupComponent
+        AppComponent, 
+        NotfoundComponent
     ],
     imports: [
         AppRoutingModule,
         AppLayoutModule,
-        DialogModule
+        DialogModule,
+        SharedModule 
     ],
     providers: [
         //{ provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -33,8 +34,7 @@ import { ProfilePopupComponent } from './web/components/profilePopup/profilePopu
         IconService,
         NodeService,
         PhotoService, 
-        ProductService,
-        ProfilePopupComponent
+        ProductService
     ],
     bootstrap: [AppComponent]
 })

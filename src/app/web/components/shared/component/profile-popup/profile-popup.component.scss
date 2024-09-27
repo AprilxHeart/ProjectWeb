@@ -1,10 +1,55 @@
 /* สไตล์สำหรับ ProfilePopup */
 p-dialog {
-    width: 50vw;
-    min-width: 300px;
-    max-width: 600px;
+  width: 50vw;
+  min-width: 300px;
+  max-width: 600px;
+}
+
+.profile-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-header {
+  margin-bottom: 20px;
+}
+
+.profile-details {
+  margin: 15px 0;
+}
+
+.profile-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-email {
+  font-size: 1.1em;
+  color: #777;
+}
+
+.profile-bio {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.btn-close {
+  background-color: #007ad9;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #005fa3;
   }
-  
-  p-footer {
-    text-align: right;
-  }
+}
+
+p-footer {
+  text-align: right;
+}
