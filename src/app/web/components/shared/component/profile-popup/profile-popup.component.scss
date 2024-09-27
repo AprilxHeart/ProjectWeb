@@ -16,6 +16,11 @@ p-dialog {
 
 .profile-details {
   margin: 15px 0;
+  text-align: left; /* ปรับให้ข้อมูลเรียงจากซ้ายเพื่ออ่านง่ายขึ้น */
+}
+
+.profile-details p {
+  margin: 10px 0;
 }
 
 .profile-name {
@@ -24,7 +29,11 @@ p-dialog {
   color: #333;
 }
 
-.profile-email {
+.profile-email, 
+.profile-role, 
+.profile-mobile, 
+.profile-address, 
+.profile-department {
   font-size: 1.1em;
   color: #777;
 }
@@ -44,10 +53,10 @@ p-dialog {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
 
-  &:hover {
-    background-color: #005fa3;
-  }
+.btn-close:hover {
+  background-color: #005fa3;
 }
 
 p-footer {

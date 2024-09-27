@@ -74,11 +74,13 @@ export class LoginComponent {
                         console.log('----res findUserprofile-------');
                         console.log(res);
                         const { resultData } = res;
-                        console.log(JSON.stringify(resultData));
+                        console.log('ASD',JSON.stringify(resultData));
                         const user = {
                             "userName": resultData.userName,
                             "firstName": resultData.firstName,
-                            "lastName": resultData.lastName
+                            "lastName": resultData.lastName,
+                            "email" : resultData.email,
+                            "mobile" : resultData.mobile,
                         }
                         const userProfileId = {
                             "userProfileId": resultData.userProfileId,

@@ -47,6 +47,7 @@ export class AppTopBarComponent  {
             this.userProfile.firstName = tokendecode.firstName
             this.userProfile.lastName = tokendecode.lastName
             this.userProfile.email = tokendecode.email
+            this.userProfile.mobile = tokendecode.mobile
         }
         
         this.items = [

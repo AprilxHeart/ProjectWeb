@@ -4,9 +4,13 @@
       <h2>User Profile</h2>
     </div>
     <div class="profile-details">
-      <p class="profile-name">{{ userProfile.firstName }} {{ userProfile.lastName }}</p>
-      <p class="profile-email">{{ userProfile.email }}</p>
-      <p class="profile-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p><strong>Fullname:</strong> {{ userProfile.firstName }} {{ userProfile.lastName }}</p>
+      <p><strong>Email:</strong> {{ userProfile.email }}</p>
+      <p><strong>Mobile:</strong> {{ userProfile.mobile }}</p>
+      <p><strong>Role:</strong> {{ userProfile.role }}</p>
+      <p><strong>Address:</strong> {{ userProfile.address }}</p>
+      <p><strong>Department:</strong> {{ userProfile.department }}</p>
+      <p><strong>Bio:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     </div>
     <p-footer>
       <button class="btn-close" (click)="closeDialog()">Close</button>
